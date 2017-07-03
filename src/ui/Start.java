@@ -33,7 +33,7 @@ public class Start extends Application {
 		return primStage;
 	}
 	
-	public static class Colors {
+	public static class Colors { 
 		static Color green = Color.web("#034220");
 		static Color red = Color.FIREBRICK;
 	}
