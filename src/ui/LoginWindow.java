@@ -3,6 +3,7 @@ package ui;
 import business.ControllerInterface;
 import business.LoginException;
 import business.SystemController;
+import dataaccess.Auth;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -80,9 +81,29 @@ public class LoginWindow extends Stage implements LibWindow {
         	public void handle(ActionEvent e) {
         		try {
         			ControllerInterface c = new SystemController();
-        			c.login(userTextField.getText().trim(), pwBox.getText().trim());
-        			messageBar.setFill(Start.Colors.green);
-             	    messageBar.setText("Login successful");
+        			Auth currentAuth = c.login(userTextField.getText().trim(), pwBox.getText().trim());
+        			if(currentAuth==Auth.LIBRARIAN){
+        				// Librarian login
+        				Start.hideAllWindows();
+            			if(!LibrarianWindow.INSTANCE.isInitialized()) {
+            				LibrarianWindow.INSTANCE.init();
+            			}
+            			LibrarianWindow.INSTANCE.show();
+        			}else if(currentAuth==Auth.ADMIN){
+        				// Admin login
+        				Start.hideAllWindows();
+            			if(!AdminWindow.INSTANCE.isInitialized()) {
+            				AdminWindow.INSTANCE.init();
+            			}
+            			AdminWindow.INSTANCE.show();
+        			}else{
+        				// a user is both Librarian and Admin
+        				Start.hideAllWindows();
+            			if(!BothWindow.INSTANCE.isInitialized()) {
+            				BothWindow.INSTANCE.init();
+            			}
+            			BothWindow.INSTANCE.show();
+        			}	
         		} catch(LoginException ex) {
         			messageBar.setFill(Start.Colors.red);
         			messageBar.setText("Error! " + ex.getMessage());
@@ -108,6 +129,4 @@ public class LoginWindow extends Stage implements LibWindow {
         setScene(scene);
         
     }
-	
-	
 }
