@@ -1,5 +1,6 @@
 package business;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -13,6 +14,27 @@ import dataaccess.User;
 public class SystemController implements ControllerInterface {
 	public static Auth currentAuth = null;
 	
+	public void checkoutBook(String memberId,String ISBN) throws LibrarySystemException{
+		DataAccess da = new DataAccessFacade();
+		HashMap<String, LibraryMember>map1 = da.readMemberMap();
+		HashMap<String, Book>map2 = da.readBooksMap();
+		if(!map1.containsKey(memberId)){
+			throw new LibrarySystemException("MemberId"+memberId+"not found");
+		}
+		
+		Person libraryMember = map1.get(memberId);
+		if(!map2.containsKey(ISBN)){
+			throw new LibrarySystemException("ISBN"+ISBN+"not found");
+		}
+		Book bookCopy = map2.get(ISBN);
+		if(!bookCopy.isAvailable()){
+			throw new LibrarySystemException("BookCopy is unvailable");
+		}
+		bookCopy.getNextAvailableCopy();
+		int maxCheckoutLength = bookCopy.getMaxCheckoutLength();
+		((LibraryMember) libraryMember).checkout(bookCopy,LocalDate.now(),LocalDate.now().getDayOfMonth()+maxCheckoutLength);
+		
+	}
 	public void login(String id, String password) throws LoginException {
 		DataAccess da = new DataAccessFacade();
 		HashMap<String, User> map = da.readUserMap();
