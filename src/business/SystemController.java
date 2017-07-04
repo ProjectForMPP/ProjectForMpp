@@ -41,6 +41,23 @@ public class SystemController implements ControllerInterface {
 		retval.addAll(da.readBooksMap().keySet());
 		return retval;
 	}
+	@Override
+	public void addNewLibaryMember(LibraryMember member) throws LibrarySystemException {
+		// TODO Auto-generated method stub
+		System.out.println("--------"+member.getFirstName());
+		
+		DataAccess da = new DataAccessFacade();
+		HashMap<String, User> map = da.readUserMap();
+		System.out.println("----:"+map);
+		if(map.containsKey(member.getMemberId())) {
+			throw new LibrarySystemException("ID " + member.getMemberId() + " is existence");
+		}
+		
+		List<LibraryMember> members = new ArrayList<LibraryMember>();
+		members.add(member);
+		DataAccessFacade.loadMemberMap(members);
+		
+	}
 	
 	
 }

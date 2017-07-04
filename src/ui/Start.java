@@ -154,7 +154,7 @@ public class Start extends Application {
 					sb.append(s + "\n");
 				}
 				System.out.println(sb.toString());
-				AddNewMemberWindow.INSTANCE.setData(sb.toString());
+//				AddNewMemberWindow.INSTANCE.setData(sb.toString());
 				AddNewMemberWindow.INSTANCE.show();
             }
 		});	
