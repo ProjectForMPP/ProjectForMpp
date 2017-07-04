@@ -41,7 +41,8 @@ public class Start extends Application {
 	private static Stage[] allWindows = { 
 		LoginWindow.INSTANCE,
 		AllMembersWindow.INSTANCE,	
-		AllBooksWindow.INSTANCE
+		AllBooksWindow.INSTANCE,
+		AddNewMemberWindow.INSTANCE // add
 	};
 	
 	public static void hideAllWindows() {
@@ -134,7 +135,31 @@ public class Start extends Application {
 				AllMembersWindow.INSTANCE.show();
             }
 		});	
-		optionsMenu.getItems().addAll(login, bookIds, memberIds);
+		
+		//Add new functional 
+		MenuItem newMemberId = new MenuItem("Add New Member Id");
+		newMemberId.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent e) {
+				hideAllWindows();
+				if(!AddNewMemberWindow.INSTANCE.isInitialized()) {
+					AddNewMemberWindow.INSTANCE.init();
+				}
+				ControllerInterface ci = new SystemController();
+				List<String> ids = ci.allMemberIds();
+				Collections.sort(ids);
+				System.out.println(ids);
+				StringBuilder sb = new StringBuilder();
+				for(String s: ids) {
+					sb.append(s + "\n");
+				}
+				System.out.println(sb.toString());
+//				AddNewMemberWindow.INSTANCE.setData(sb.toString());
+				AddNewMemberWindow.INSTANCE.show();
+            }
+		});	
+		//
+		optionsMenu.getItems().addAll(login, bookIds, memberIds,newMemberId);
 
 		mainMenu.getMenus().addAll(optionsMenu);
 		Scene scene = new Scene(topContainer, 420, 375);
