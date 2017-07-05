@@ -16,10 +16,11 @@ final public class LibraryMember extends Person implements Serializable {
 		this.memberId = memberId;		
 	}
 	
-	public void checkout(Book bookCopy,LocalDate now,int checkoutLength){
-		if(bookCopy.isAvailable()){
-			//bookCopy.ad
+	public void checkout(Book bookCopy,LocalDate now,int checkoutLength) throws LibrarySystemException{
+		if(!bookCopy.isAvailable()){
+			throw new LibrarySystemException("Bookcopy is unvailable");
 		}
+		
 	}
 	
 	public String getMemberId() {
