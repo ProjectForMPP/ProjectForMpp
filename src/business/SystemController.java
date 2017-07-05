@@ -15,8 +15,7 @@ import dataaccess.User;
 
 public class SystemController implements ControllerInterface {
 
-<<<<<<< HEAD
-=======
+
 	public static Auth currentAuth = null;
 	
 	public void checkoutBook(String memberId,String ISBN) throws LibrarySystemException{
@@ -45,7 +44,7 @@ public class SystemController implements ControllerInterface {
 	}
 	@Override
 
->>>>>>> 63455028fbb9a7011666c7cf822c4c13baac16b5
+//>>>>>>> 63455028fbb9a7011666c7cf822c4c13baac16b5
 	public Auth login(String id, String password) throws LoginException {
 		DataAccess da = new DataAccessFacade();
 		HashMap<String, User> map = da.readUserMap();
@@ -56,13 +55,13 @@ public class SystemController implements ControllerInterface {
 		if (!passwordFound.equals(password)) {
 			throw new LoginException("Password incorrect");
 		}
-<<<<<<< HEAD
+//<<<<<<< HEAD
 		return map.get(id).getAuthorization();
 
-=======
-		currentAuth = map.get(id).getAuthorization();
-		return currentAuth;
->>>>>>> 63455028fbb9a7011666c7cf822c4c13baac16b5
+//=======
+//		currentAuth = map.get(id).getAuthorization();
+//		return currentAuth;
+//>>>>>>> 63455028fbb9a7011666c7cf822c4c13baac16b5
 	}
 
 	@Override
@@ -80,11 +79,11 @@ public class SystemController implements ControllerInterface {
 		retval.addAll(da.readBooksMap().keySet());
 		return retval;
 	}
-<<<<<<< HEAD
+//<<<<<<< HEAD
 
-=======
+//=======
 	
->>>>>>> 63455028fbb9a7011666c7cf822c4c13baac16b5
+//>>>>>>> 63455028fbb9a7011666c7cf822c4c13baac16b5
 	@Override
 	public void addNewLibaryMember(LibraryMember member) throws LibrarySystemException {
 
@@ -103,7 +102,7 @@ public class SystemController implements ControllerInterface {
 
 		members.add(member);
 		DataAccessFacade.loadMemberMap(members);
-<<<<<<< HEAD
+//<<<<<<< HEAD
 
 	}
 
@@ -146,10 +145,10 @@ public class SystemController implements ControllerInterface {
 		DataAccessFacade.loadAuthorMap(authors);
 	}
 
-=======
+//=======
 	}
->>>>>>> 63455028fbb9a7011666c7cf822c4c13baac16b5
-}
+//>>>>>>> 63455028fbb9a7011666c7cf822c4c13baac16b5
+//}
 
 //=======
 //package business;

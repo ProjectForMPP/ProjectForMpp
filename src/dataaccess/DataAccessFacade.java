@@ -18,13 +18,13 @@ import dataaccess.DataAccessFacade.StorageType;
 
 public class DataAccessFacade implements DataAccess {
 	
-<<<<<<< HEAD
-	enum StorageType {
-		BOOKS, MEMBERS, USERS,AUTHORS;
-=======
+//<<<<<<< HEAD
 	public enum StorageType {
-		BOOKS, MEMBERS, USERS;
->>>>>>> 63455028fbb9a7011666c7cf822c4c13baac16b5
+		BOOKS, MEMBERS, USERS,AUTHORS;
+//=======
+//	public enum StorageType {
+//		BOOKS, MEMBERS, USERS;
+//>>>>>>> 63455028fbb9a7011666c7cf822c4c13baac16b5
 	}
 	
 	public static final String OUTPUT_DIR = System.getProperty("user.dir") 
@@ -83,17 +83,17 @@ public class DataAccessFacade implements DataAccess {
 		saveToStorage(StorageType.MEMBERS, members);
 	}
 	
-<<<<<<< HEAD
+//<<<<<<< HEAD
 	public static void loadAuthorMap(List<Author> authorList) {
 		HashMap<String, Author> authors = new HashMap<String, Author>();
 		authorList.forEach(author -> authors.put(author.getBio(), author));
 		saveToStorage(StorageType.AUTHORS, authors);
 	}
 	
-	static void saveToStorage(StorageType type, Object ob) {
-=======
 	public static void saveToStorage(StorageType type, Object ob) {
->>>>>>> 63455028fbb9a7011666c7cf822c4c13baac16b5
+//=======
+//	public static void saveToStorage(StorageType type, Object ob) {
+//>>>>>>> 63455028fbb9a7011666c7cf822c4c13baac16b5
 		ObjectOutputStream out = null;
 		try {
 			Path path = FileSystems.getDefault().getPath(OUTPUT_DIR, type.toString());
