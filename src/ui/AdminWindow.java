@@ -1,5 +1,10 @@
 package ui;
 
+import java.util.Collections;
+import java.util.List;
+
+import business.ControllerInterface;
+import business.SystemController;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -54,22 +59,22 @@ public class AdminWindow extends Stage implements LibWindow {
 			@Override
 			public void handle(Event event) {
 				// TODO Auto-generated method stub
-				Start.hideAllWindows();
+				//Start.hideAllWindows();
 				if(!AddNewMemberWindow.INSTANCE.isInitialized()) {
 					AddNewMemberWindow.INSTANCE.init();
 				}
-				AdminWindow.INSTANCE.hide();
+				//AdminWindow.INSTANCE.hide();
         		AddNewMemberWindow.INSTANCE.show();
 			}
         });
         
         // Edit Member Button
-        Button btnEditMember = new Button();
-        btnEditMember.setText("Edit Member");
-        HBox hbxBtn2 = new HBox(10);
-        hbxBtn2.setAlignment(Pos.BOTTOM_LEFT);
-        hbxBtn2.getChildren().add(btnEditMember);
-        grid.add(hbxBtn2, 1, 2);
+        //Button btnEditMember = new Button();
+        //btnEditMember.setText("Edit Member");
+        //HBox hbxBtn2 = new HBox(10);
+        //hbxBtn2.setAlignment(Pos.BOTTOM_LEFT);
+        //hbxBtn2.getChildren().add(btnEditMember);
+        //grid.add(hbxBtn2, 1, 2);
         
         // All Members ID Button
         Button btnAllMembersID = new Button();
@@ -77,18 +82,26 @@ public class AdminWindow extends Stage implements LibWindow {
         HBox hbxBtn3 = new HBox(10);
         hbxBtn3.setAlignment(Pos.BOTTOM_LEFT);
         hbxBtn3.getChildren().add(btnAllMembersID);
-        grid.add(hbxBtn3, 1, 3);
+        grid.add(hbxBtn3, 1, 2);
         
         btnAllMembersID.setOnAction(new EventHandler(){	// add a button listener
 			@Override
 			public void handle(Event event) {
 				// TODO Auto-generated method stub
-				Start.hideAllWindows();
 				if(!AllMembersWindow.INSTANCE.isInitialized()) {
 					AllMembersWindow.INSTANCE.init();
 				}
-				AdminWindow.INSTANCE.hide();
-        		AllMembersWindow.INSTANCE.show();
+				ControllerInterface ci = new SystemController();
+				List<String> ids = ci.allMemberIds();
+				Collections.sort(ids);
+				System.out.println(ids);
+				StringBuilder sb = new StringBuilder();
+				for(String s: ids) {
+					sb.append(s + "\n");
+				}
+				System.out.println(sb.toString());
+				AllMembersWindow.INSTANCE.setData(sb.toString());
+				AllMembersWindow.INSTANCE.show();
 			}
         });
         
@@ -98,7 +111,28 @@ public class AdminWindow extends Stage implements LibWindow {
         HBox hbxBtn4 = new HBox(10);
         hbxBtn4.setAlignment(Pos.BOTTOM_LEFT);
         hbxBtn4.getChildren().add(btnAddBook);
-        grid.add(hbxBtn4, 1, 4);
+        grid.add(hbxBtn4, 1, 3);
+        
+        btnAddBook.setOnAction(new EventHandler(){	// add a button listener
+			@Override
+			public void handle(Event event) {
+				// TODO Auto-generated method stub
+				if(!AddNewBookWindow.INSTANCE.isInitialized()) {
+					AddNewBookWindow.INSTANCE.init();
+				}
+				ControllerInterface ci = new SystemController();
+				List<String> ids = ci.allMemberIds();
+				Collections.sort(ids);
+				System.out.println(ids);
+				StringBuilder sb = new StringBuilder();
+				for(String s: ids) {
+					sb.append(s + "\n");
+				}
+				//System.out.println(sb.toString());
+				//AddNewMemberWindow.INSTANCE.setData(sb.toString());
+				AddNewBookWindow.INSTANCE.show();
+			}
+        });
         
         // Logout Button
         Button btnLogout = new Button();
@@ -116,7 +150,7 @@ public class AdminWindow extends Stage implements LibWindow {
         HBox hbxBtn5 = new HBox(10);
         hbxBtn5.setAlignment(Pos.BOTTOM_LEFT);
         hbxBtn5.getChildren().add(btnLogout);
-        grid.add(hbxBtn5, 1, 5);
+        grid.add(hbxBtn5, 1, 4);
 		
 		Scene scene = new Scene(grid);
 		scene.getStylesheets().add(getClass().getResource("library.css").toExternalForm());
