@@ -1,5 +1,10 @@
 package ui;
 
+import java.util.Collections;
+import java.util.List;
+
+import business.ControllerInterface;
+import business.SystemController;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -62,12 +67,19 @@ public class LibrarianWindow extends Stage implements LibWindow {
 			@Override
 			public void handle(Event event) {
 				// TODO Auto-generated method stub
-				Start.hideAllWindows();
+				//Start.hideAllWindows();
 				if(!AllBooksWindow.INSTANCE.isInitialized()) {
 					AllBooksWindow.INSTANCE.init();
 				}
-				AdminWindow.INSTANCE.hide();
-        		AllBooksWindow.INSTANCE.show();
+				ControllerInterface ci = new SystemController();
+				List<String> ids = ci.allBookIds();
+				Collections.sort(ids);
+				StringBuilder sb = new StringBuilder();
+				for(String s: ids) {
+					sb.append(s + "\n");
+				}
+				AllBooksWindow.INSTANCE.setData(sb.toString());
+				AllBooksWindow.INSTANCE.show();
 			}
         });
         
@@ -87,7 +99,7 @@ public class LibrarianWindow extends Stage implements LibWindow {
 				if(!SearchMemberWindow.INSTANCE.isInitialized()) {
 					SearchMemberWindow.INSTANCE.init();
 				}
-				LibrarianWindow.INSTANCE.hide();
+				//LibrarianWindow.INSTANCE.hide();
         		SearchMemberWindow.INSTANCE.show();
 			}
         });
