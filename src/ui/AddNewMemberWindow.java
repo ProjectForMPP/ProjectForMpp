@@ -10,6 +10,7 @@ import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -25,6 +26,7 @@ public class AddNewMemberWindow extends Stage implements LibWindow {
 	private boolean isInitialized = false;
 	private LibraryMember member;
 	private Address address;
+	Alert alert = new Alert(Alert.AlertType.INFORMATION);
 	
 	public boolean isInitialized() {
 		return isInitialized;
@@ -34,6 +36,7 @@ public class AddNewMemberWindow extends Stage implements LibWindow {
 	}
 
 	private AddNewMemberWindow() {
+		alert.setTitle("Warning");
 	}
 	
 	private Text messageBar = new Text();
@@ -53,7 +56,7 @@ public class AddNewMemberWindow extends Stage implements LibWindow {
         grid.setPadding(new Insets(25, 25, 25, 25));
 
         Text scenetitle = new Text("Add New Member");
-        scenetitle.setFont(Font.font("Harlow Solid Italic", FontWeight.NORMAL, 20)); //Tahoma
+        scenetitle.setFont(Font.font("Georgia", FontWeight.NORMAL, 20)); //Tahoma
         grid.add(scenetitle, 0, 0, 2, 1);
 
         
@@ -206,16 +209,22 @@ public class AddNewMemberWindow extends Stage implements LibWindow {
         			c.addNewLibaryMember(member);
 
         			messageBar.setFill(Start.Colors.green);
-             	    messageBar.setText("Add successful");
+//             	    messageBar.setText("Add successful");
+        			alert.setHeaderText(null);
+        			alert.setContentText("Add successful");
+        			alert.showAndWait();
         		} catch(LibrarySystemException ex) {
         			messageBar.setFill(Start.Colors.red);
-        			messageBar.setText("Error! " + ex.getMessage());
+        			messageBar.setText("");
+        			alert.setHeaderText(null);
+        			alert.setContentText( ex.getMessage());
+    				alert.showAndWait();
         		}
         	   
         	}
         });
 
-        Button backBtn = new Button("<=Back Main");
+        Button backBtn = new Button("Back Main");
         backBtn.setOnAction(new EventHandler<ActionEvent>() {
         	@Override
         	public void handle(ActionEvent e) {

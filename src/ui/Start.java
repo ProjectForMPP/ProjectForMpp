@@ -62,7 +62,7 @@ public class Start extends Application {
 		topContainer.setId("top-container");
 		MenuBar mainMenu = new MenuBar();
 		VBox imageHolder = new VBox();
-		Image image = new Image("ui/library.jpg", 400, 300, false, false);
+		Image image = new Image("ui/library.png", 400, 300, false, false);
 
         // simply displays in ImageView the image as is
         ImageView iv = new ImageView();

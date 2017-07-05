@@ -1,13 +1,8 @@
 package ui;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import business.Address;
 import business.Author;
-import business.Book;
 import business.ControllerInterface;
-import business.LibraryMember;
 import business.LibrarySystemException;
 import business.SystemController;
 import javafx.event.ActionEvent;
@@ -15,6 +10,7 @@ import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -31,9 +27,14 @@ public class AddNewAuthorsWindow extends Stage implements LibWindow {
 	private Text messageBar = new Text();
 	private Address address;
 	private Author author;
+	Alert alert = new Alert(Alert.AlertType.INFORMATION);
 	
 	public void clear() {
 		messageBar.setText("");
+	}
+	
+	AddNewAuthorsWindow(){
+		alert.setTitle("Warning");
 	}
 	
 	@Override
@@ -59,8 +60,8 @@ public class AddNewAuthorsWindow extends Stage implements LibWindow {
         grid.setVgap(10);
         grid.setPadding(new Insets(25, 25, 25, 25));
 
-        Text scenetitle = new Text("Add New Book");
-        scenetitle.setFont(Font.font("Harlow Solid Italic", FontWeight.NORMAL, 20)); //Tahoma
+        Text scenetitle = new Text("Add New Author");
+        scenetitle.setFont(Font.font("Georgia", FontWeight.NORMAL, 20)); //Tahoma
         grid.add(scenetitle, 0, 0, 2, 1);
 
         
@@ -70,7 +71,7 @@ public class AddNewAuthorsWindow extends Stage implements LibWindow {
         grid.add(firstName, 0, 1);
 
         TextField firstNameTextField = new TextField();
-        grid.add(firstNameTextField, 1, 2);
+        grid.add(firstNameTextField, 1, 1);
         
         //LastName
         Label lastName = new Label("LastName:");
@@ -163,29 +164,31 @@ public class AddNewAuthorsWindow extends Stage implements LibWindow {
         			}else if(zip == null || zip.isEmpty()){
         				exceptionMessage += zip;
         				throwException = true;
-        			}else{}
-        			
-        			
-        			
-        			if(!zip.matches("[0-9]+")){
-        				exceptionMessage = "Zip must be number";
-        				throwException = true;
+        			}else{
+        				if(!zip.matches("[0-9]+")){
+            				exceptionMessage = "Zip must be number";
+            				throwException = true;
+            			}
+            			
+            			if(!phoneNumber.matches("[0-9]+")){
+            				exceptionMessage = "telphone number must be number";
+            				throwException = true;
+            			}
+            			
+            			if(zip.length() != 5){
+            				exceptionMessage = "Zip must be 5 digital";
+            				throwException = true;
+            			}
+            			
+            			if(phoneNumber.length() != 10){
+            				exceptionMessage = "phoneNumber must be 10 digital";
+            				throwException = true;
+            			}
         			}
         			
-        			if(!phoneNumber.matches("[0-9]+")){
-        				exceptionMessage = "telphone number must be number";
-        				throwException = true;
-        			}
         			
-        			if(zip.length() != 5){
-        				exceptionMessage = "Zip must be 5 digital";
-        				throwException = true;
-        			}
         			
-        			if(phoneNumber.length() != 10){
-        				exceptionMessage = "phoneNumber must be 10 digital";
-        				throwException = true;
-        			}
+        			
         			
         			if(throwException){
         				throw new LibrarySystemException(exceptionMessage);
@@ -193,14 +196,21 @@ public class AddNewAuthorsWindow extends Stage implements LibWindow {
         			
         			//add member
         			address = new Address(street, city, state, zip);
-        			author = new Author(firstName,lastName,phoneNumber,address,""); 
+        			author = new Author(firstName,lastName,phoneNumber,address,firstName+lastName); 
+        			
         			c.addNewAuthor(author);
 
         			messageBar.setFill(Start.Colors.green);
              	    messageBar.setText("Add successful");
+             	    
+					AddNewAuthorsWindow.INSTANCE.hide();
+					
         		} catch(LibrarySystemException ex) {
         			messageBar.setFill(Start.Colors.red);
-        			messageBar.setText("Error! " + ex.getMessage());
+//        			messageBar.setText("Error! " + ex.getMessage());
+        			alert.setHeaderText(null);
+        			alert.setContentText( ex.getMessage());
+    				alert.showAndWait();
         		}
         	   
         	}
@@ -210,8 +220,7 @@ public class AddNewAuthorsWindow extends Stage implements LibWindow {
         backBtn.setOnAction(new EventHandler<ActionEvent>() {
         	@Override
         	public void handle(ActionEvent e) {
-        		Start.hideAllWindows();
-        		Start.primStage().show();
+					AddNewAuthorsWindow.INSTANCE.hide();
         	}
         });
         HBox hBack = new HBox(10);
