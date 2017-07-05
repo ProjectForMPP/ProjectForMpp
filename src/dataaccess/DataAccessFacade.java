@@ -93,7 +93,6 @@ public class DataAccessFacade implements DataAccess {
 		Object retVal = null;
 		try {
 			Path path = FileSystems.getDefault().getPath(OUTPUT_DIR, type.toString());
-			System.out.println("---------"+path.toString());
 			in = new ObjectInputStream(Files.newInputStream(path));
 			retVal = in.readObject();
 		} catch(Exception e) {

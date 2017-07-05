@@ -148,6 +148,64 @@ public class AddNewMemberWindow extends Stage implements LibWindow {
         			String   state = stateTextField.getText().trim();
         			String   zip = zipTextField.getText().trim();
         			
+        			//rules
+        			String exceptionMessage = "This item must not be empty:";
+        			boolean throwException = false;
+        			if(id == null || id.isEmpty()){
+        				exceptionMessage += "id";
+        				throwException = true;
+        			}else if(firstName == null || firstName.isEmpty()){
+        				exceptionMessage += "firstName";
+        				throwException = true;
+        			}else if(lastName == null || lastName.isEmpty()){
+        				exceptionMessage += "lastName";
+        				throwException = true;
+        			}else if(phoneNumber == null || phoneNumber.isEmpty()){
+        				exceptionMessage += "phoneNumber";
+        				throwException = true;
+        			}else if(street == null || street.isEmpty()){
+        				exceptionMessage += "street";
+        				throwException = true;
+        			}else if(city == null || city.isEmpty()){
+        				exceptionMessage += "city";
+        				throwException = true;
+        			}else if(state == null || state.isEmpty()){
+        				exceptionMessage += "state";
+        				throwException = true;
+        			}else if(zip == null || zip.isEmpty()){
+        				exceptionMessage += zip;
+        				throwException = true;
+        			}else{}
+        			
+        			if(!id.matches("[0-9]+")){
+        				exceptionMessage = "ID must be number";
+        				throwException = true;
+        			}
+        			
+        			if(!zip.matches("[0-9]+")){
+        				exceptionMessage = "Zip must be number";
+        				throwException = true;
+        			}
+        			
+        			if(!phoneNumber.matches("[0-9]+")){
+        				exceptionMessage = "telphone number must be number";
+        				throwException = true;
+        			}
+        			
+        			if(zip.length() != 5){
+        				exceptionMessage = "Zip must be 5 digital";
+        				throwException = true;
+        			}
+        			
+        			if(phoneNumber.length() != 10){
+        				exceptionMessage = "phoneNumber must be 10 digital";
+        				throwException = true;
+        			}
+        			
+        			if(throwException){
+        				throw new LibrarySystemException(exceptionMessage);
+        			}
+        			
         			//add member
         			address = new Address(street, city, state, zip);
         			member = new LibraryMember(id,firstName,lastName,phoneNumber,address); 
@@ -163,7 +221,7 @@ public class AddNewMemberWindow extends Stage implements LibWindow {
         	}
         });
 
-        Button backBtn = new Button("Cancel");
+        Button backBtn = new Button("<=Back Main");
         backBtn.setOnAction(new EventHandler<ActionEvent>() {
         	@Override
         	public void handle(ActionEvent e) {

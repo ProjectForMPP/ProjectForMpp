@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 //<<<<<<< HEAD
 package business;
 
@@ -5,6 +6,15 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+=======
+
+package business;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+>>>>>>> 28bf1d55e15e56cb54e09bb4354ac5f740972a7a
 
 import business.Book;
 import dataaccess.Auth;
@@ -13,6 +23,7 @@ import dataaccess.DataAccessFacade;
 import dataaccess.User;
 
 public class SystemController implements ControllerInterface {
+<<<<<<< HEAD
 	public static Auth currentAuth = null;
 	
 	public void checkoutBook(String memberId,String ISBN) throws LibrarySystemException{
@@ -37,6 +48,9 @@ public class SystemController implements ControllerInterface {
 		
 	}
 	@Override
+=======
+	
+>>>>>>> 28bf1d55e15e56cb54e09bb4354ac5f740972a7a
 	public Auth login(String id, String password) throws LoginException {
 		DataAccess da = new DataAccessFacade();
 		HashMap<String, User> map = da.readUserMap();
@@ -69,22 +83,25 @@ public class SystemController implements ControllerInterface {
 	@Override
 	public void addNewLibaryMember(LibraryMember member) throws LibrarySystemException {
 		// TODO Auto-generated method stub
-		System.out.println("--------"+member.getFirstName());
 		
 		DataAccess da = new DataAccessFacade();
-		HashMap<String, User> map = da.readUserMap();
-		System.out.println("----:"+map);
+		HashMap<String, LibraryMember> map = da.readMemberMap();
 		if(map.containsKey(member.getMemberId())) {
 			throw new LibrarySystemException("ID " + member.getMemberId() + " is existence");
 		}
 		
 		List<LibraryMember> members = new ArrayList<LibraryMember>();
+		for(Map.Entry<String, LibraryMember> entry:map.entrySet()){
+			members.add(entry.getValue());
+		}
+		
 		members.add(member);
 		DataAccessFacade.loadMemberMap(members);
 	}
 	
 	
 }
+<<<<<<< HEAD
 //=======
 //package business;
 //
@@ -149,3 +166,5 @@ public class SystemController implements ControllerInterface {
 //	
 //}
 //>>>>>>> 04a0959c7a61f48be86d4b7773a4f5e473a0147d
+=======
+>>>>>>> 28bf1d55e15e56cb54e09bb4354ac5f740972a7a
