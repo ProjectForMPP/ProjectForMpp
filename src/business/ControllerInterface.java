@@ -10,5 +10,7 @@ public interface ControllerInterface {
 	public List<String> allBookIds();
 	//add By LeiChen
 	public void addNewLibaryMember(LibraryMember member) throws LibrarySystemException;
+	public void addNewBook(Book book,int bookCopiesNum) throws LibrarySystemException;
+	public void addNewAuthor(Author author) throws LibrarySystemException;
 	
 }

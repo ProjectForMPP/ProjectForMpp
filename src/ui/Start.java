@@ -159,7 +159,28 @@ public class Start extends Application {
             }
 		});	
 		//
-		optionsMenu.getItems().addAll(login, bookIds, memberIds,newMemberId);
+		MenuItem newBookId = new MenuItem("Add New Book");
+		newBookId.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent e) {
+				hideAllWindows();
+				if(!AddNewBookWindow.INSTANCE.isInitialized()) {
+					AddNewBookWindow.INSTANCE.init();
+				}
+				ControllerInterface ci = new SystemController();
+				List<String> ids = ci.allMemberIds();
+				Collections.sort(ids);
+				System.out.println(ids);
+				StringBuilder sb = new StringBuilder();
+				for(String s: ids) {
+					sb.append(s + "\n");
+				}
+				System.out.println(sb.toString());
+//				AddNewMemberWindow.INSTANCE.setData(sb.toString());
+				AddNewBookWindow.INSTANCE.show();
+            }
+		});	
+		optionsMenu.getItems().addAll(login, bookIds, memberIds,newMemberId,newBookId);
 
 		mainMenu.getMenus().addAll(optionsMenu);
 		Scene scene = new Scene(topContainer, 420, 375);

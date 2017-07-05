@@ -3,3 +3,7 @@
 *.class
 bin/business/Address.class
 *.class
+*.class
+*.class
+*.class
+bin/business/Author.class

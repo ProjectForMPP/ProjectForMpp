@@ -1,6 +1,11 @@
 package ui;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import business.Address;
+import business.Author;
+import business.Book;
 import business.ControllerInterface;
 import business.LibraryMember;
 import business.LibrarySystemException;
@@ -20,31 +25,33 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
-public class AddNewMemberWindow extends Stage implements LibWindow {
-	public static final AddNewMemberWindow INSTANCE = new AddNewMemberWindow();
+public class AddNewAuthorsWindow extends Stage implements LibWindow {
+	public static final AddNewAuthorsWindow INSTANCE = new AddNewAuthorsWindow();
 	private boolean isInitialized = false;
-	private LibraryMember member;
-	private Address address;
-	
-	public boolean isInitialized() {
-		return isInitialized;
-	}
-	public void isInitialized(boolean val) {
-		isInitialized = val;
-	}
-
-	private AddNewMemberWindow() {
-	}
-	
 	private Text messageBar = new Text();
+	private Address address;
+	private Author author;
+	
 	public void clear() {
 		messageBar.setText("");
 	}
 	
 	@Override
+	public boolean isInitialized() {
+		// TODO Auto-generated method stub
+		return isInitialized;
+	}
+
+	@Override
+	public void isInitialized(boolean val) {
+		// TODO Auto-generated method stub
+		isInitialized = val;
+	}
+	
+	
+	@Override
 	public void init() {
 		// TODO Auto-generated method stub
-
 		GridPane grid = new GridPane();
 		grid.setId("top-container");
         grid.setAlignment(Pos.CENTER);
@@ -52,41 +59,40 @@ public class AddNewMemberWindow extends Stage implements LibWindow {
         grid.setVgap(10);
         grid.setPadding(new Insets(25, 25, 25, 25));
 
-        Text scenetitle = new Text("Add New Member");
+        Text scenetitle = new Text("Add New Book");
         scenetitle.setFont(Font.font("Harlow Solid Italic", FontWeight.NORMAL, 20)); //Tahoma
         grid.add(scenetitle, 0, 0, 2, 1);
 
         
-        
-        //ID
-        Label Id = new Label("Member ID:");
-        grid.add(Id, 0, 1);
-
-        TextField idTextField = new TextField();
-        grid.add(idTextField, 1, 1);
-
-        //firstName
+      //Add authors
+      //firstName
         Label firstName = new Label("FirstName:");
-        grid.add(firstName, 0, 2);
-        grid.setGridLinesVisible(false) ;
+        grid.add(firstName, 0, 1);
 
         TextField firstNameTextField = new TextField();
         grid.add(firstNameTextField, 1, 2);
         
         //LastName
         Label lastName = new Label("LastName:");
-        grid.add(lastName, 0, 3);
+        grid.add(lastName, 0, 2);
 
         TextField lastNameTextField = new TextField();
-        grid.add(lastNameTextField, 1, 3);
+        grid.add(lastNameTextField, 1, 2);
+        
+        // phoneNumber
+        Label phoneNumber = new Label("Phone Number:");
+        grid.add(phoneNumber, 0, 3);
 
+        TextField phoneNumberTextField = new TextField();
+        grid.add(phoneNumberTextField, 1, 3);
+        
         //street
         Label street = new Label("Street:");
-        grid.add(street, 0, 4);
+        grid.add(street, 2, 0);
         grid.setGridLinesVisible(false) ;
 
         TextField streetTextField = new TextField();
-        grid.add(streetTextField, 1, 4);
+        grid.add(streetTextField, 3, 0);
         
       //city
         Label city = new Label("City:");
@@ -109,18 +115,12 @@ public class AddNewMemberWindow extends Stage implements LibWindow {
         TextField zipTextField = new TextField();
         grid.add(zipTextField, 3, 3);
         
-      //telephone Number
-        Label telephoneNumber = new Label("Phone:");
-        grid.add(telephoneNumber, 2, 4);
 
-        TextField telephoneNumberTextField = new TextField();
-        grid.add(telephoneNumberTextField, 3, 4);
-        //
-
-        Button loginBtn = new Button("Submit");
+        // add submit button
+        Button submitBtn = new Button("Submit");
         HBox hbBtn = new HBox(10);
         hbBtn.setAlignment(Pos.BOTTOM_RIGHT);
-        hbBtn.getChildren().add(loginBtn);
+        hbBtn.getChildren().add(submitBtn);
         grid.add(hbBtn, 3, 5);
 
         HBox messageBox = new HBox(10);
@@ -128,34 +128,28 @@ public class AddNewMemberWindow extends Stage implements LibWindow {
         messageBox.getChildren().add(messageBar);;
         grid.add(messageBox, 2, 5);
         
-        loginBtn.setOnAction(new EventHandler<ActionEvent>() {
+        // deal the submit button click action
+        submitBtn.setOnAction(new EventHandler<ActionEvent>() {
         	@Override
         	public void handle(ActionEvent e) {
         		try {
         			ControllerInterface c = new SystemController();
-        			String   id = idTextField.getText().trim();
         			String   firstName = firstNameTextField.getText().trim();
         			String   lastName = lastNameTextField.getText().trim();
-        			String   phoneNumber = telephoneNumberTextField.getText().trim();
         			String   street = streetTextField.getText().trim();
         			String   city = cityTextField.getText().trim();
         			String   state = stateTextField.getText().trim();
         			String   zip = zipTextField.getText().trim();
+        			String 	 phoneNumber = phoneNumberTextField.getText().trim();
         			
         			//rules
         			String exceptionMessage = "This item must not be empty:";
         			boolean throwException = false;
-        			if(id == null || id.isEmpty()){
-        				exceptionMessage += "id";
-        				throwException = true;
-        			}else if(firstName == null || firstName.isEmpty()){
+        			 if(firstName == null || firstName.isEmpty()){
         				exceptionMessage += "firstName";
         				throwException = true;
         			}else if(lastName == null || lastName.isEmpty()){
         				exceptionMessage += "lastName";
-        				throwException = true;
-        			}else if(phoneNumber == null || phoneNumber.isEmpty()){
-        				exceptionMessage += "phoneNumber";
         				throwException = true;
         			}else if(street == null || street.isEmpty()){
         				exceptionMessage += "street";
@@ -171,10 +165,7 @@ public class AddNewMemberWindow extends Stage implements LibWindow {
         				throwException = true;
         			}else{}
         			
-        			if(!id.matches("[0-9]+")){
-        				exceptionMessage = "ID must be number";
-        				throwException = true;
-        			}
+        			
         			
         			if(!zip.matches("[0-9]+")){
         				exceptionMessage = "Zip must be number";
@@ -202,8 +193,8 @@ public class AddNewMemberWindow extends Stage implements LibWindow {
         			
         			//add member
         			address = new Address(street, city, state, zip);
-        			member = new LibraryMember(id,firstName,lastName,phoneNumber,address); 
-        			c.addNewLibaryMember(member);
+        			author = new Author(firstName,lastName,phoneNumber,address,""); 
+        			c.addNewAuthor(author);
 
         			messageBar.setFill(Start.Colors.green);
              	    messageBar.setText("Add successful");
@@ -215,7 +206,7 @@ public class AddNewMemberWindow extends Stage implements LibWindow {
         	}
         });
 
-        Button backBtn = new Button("<=Back Main");
+        Button backBtn = new Button("Cancel");
         backBtn.setOnAction(new EventHandler<ActionEvent>() {
         	@Override
         	public void handle(ActionEvent e) {

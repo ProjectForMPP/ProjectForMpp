@@ -9,6 +9,7 @@ import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.List;
 
+import business.Author;
 import business.Book;
 import business.BookCopy;
 import business.LibraryMember;
@@ -18,7 +19,7 @@ import dataaccess.DataAccessFacade.StorageType;
 public class DataAccessFacade implements DataAccess {
 	
 	enum StorageType {
-		BOOKS, MEMBERS, USERS;
+		BOOKS, MEMBERS, USERS,AUTHORS;
 	}
 	
 	public static final String OUTPUT_DIR = System.getProperty("user.dir") 
@@ -50,11 +51,17 @@ public class DataAccessFacade implements DataAccess {
 	}
 	
 	
+	@SuppressWarnings("unchecked")
+	public HashMap<String, Author> readAuthorMap() {
+		//Returns a Map with name/value pairs being
+		//   userId -> User
+		return (HashMap<String, Author>)readFromStorage(StorageType.AUTHORS);
+	}
 	/////load methods - these place test data into the storage area
 	///// - used just once at startup  
 	//static void loadMemberMap(List<LibraryMember> memberList) {
 		
-	static void loadBookMap(List<Book> bookList) {
+	public static void loadBookMap(List<Book> bookList) {
 		HashMap<String, Book> books = new HashMap<String, Book>();
 		bookList.forEach(book -> books.put(book.getIsbn(), book));
 		saveToStorage(StorageType.BOOKS, books);
@@ -69,6 +76,12 @@ public class DataAccessFacade implements DataAccess {
 		HashMap<String, LibraryMember> members = new HashMap<String, LibraryMember>();
 		memberList.forEach(member -> members.put(member.getMemberId(), member));
 		saveToStorage(StorageType.MEMBERS, members);
+	}
+	
+	public static void loadAuthorMap(List<Author> authorList) {
+		HashMap<String, Author> authors = new HashMap<String, Author>();
+		authorList.forEach(author -> authors.put(author.getBio(), author));
+		saveToStorage(StorageType.AUTHORS, authors);
 	}
 	
 	static void saveToStorage(StorageType type, Object ob) {
