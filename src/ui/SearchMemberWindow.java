@@ -6,7 +6,9 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.Font;
@@ -38,11 +40,29 @@ public class SearchMemberWindow extends Stage implements LibWindow {
         grid.setVgap(10);
         grid.setPadding(new Insets(25, 25, 25, 25));
 
-        Text scenetitle = new Text("Please input member ID to search:");
+        Text scenetitle = new Text("Input member ID:");
         scenetitle.setFont(Font.font("Harlow Solid Italic", FontWeight.NORMAL, 20)); 
         grid.add(scenetitle, 0, 0, 2, 1);
 
-        // Logout Button
+        // Member ID Label
+        Label labelMemberID = new Label();
+        labelMemberID.setText("Member ID:");
+        grid.add(labelMemberID, 0, 1);
+        // Member ID TextFiled
+        TextField textFieldMemberID = new TextField();
+        grid.add(textFieldMemberID, 1, 1);
+        // Search Button
+        Button btnSearch = new Button();
+        btnSearch.setText("Search");
+        grid.add(btnSearch, 2, 1);
+        // Error Message Text
+        Text errorMessageBar = new Text();
+        grid.add(errorMessageBar, 1, 2);
+        // Print Message
+        Text printMessageBar = new Text();
+        grid.add(printMessageBar, 1, 3);
+        
+        /*/ Logout Button
         Button btnLogout = new Button();
         btnLogout.setText("Logout");
         btnLogout.setOnAction(new EventHandler(){
@@ -59,6 +79,7 @@ public class SearchMemberWindow extends Stage implements LibWindow {
         hbxBtn3.setAlignment(Pos.BOTTOM_LEFT);
         hbxBtn3.getChildren().add(btnLogout);
         grid.add(hbxBtn3, 1, 3);
+        */
 		
 		Scene scene = new Scene(grid);
 		scene.getStylesheets().add(getClass().getResource("library.css").toExternalForm());
