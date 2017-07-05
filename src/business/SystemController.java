@@ -1,20 +1,11 @@
-<<<<<<< HEAD
-//<<<<<<< HEAD
+
 package business;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-=======
-
-package business;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
->>>>>>> 28bf1d55e15e56cb54e09bb4354ac5f740972a7a
 
 import business.Book;
 import dataaccess.Auth;
@@ -23,7 +14,7 @@ import dataaccess.DataAccessFacade;
 import dataaccess.User;
 
 public class SystemController implements ControllerInterface {
-<<<<<<< HEAD
+
 	public static Auth currentAuth = null;
 	
 	public void checkoutBook(String memberId,String ISBN) throws LibrarySystemException{
@@ -38,19 +29,20 @@ public class SystemController implements ControllerInterface {
 		if(!map2.containsKey(ISBN)){
 			throw new LibrarySystemException("ISBN"+ISBN+"not found");
 		}
-		Book bookCopy = map2.get(ISBN);
-		if(!bookCopy.isAvailable()){
-			throw new LibrarySystemException("BookCopy is unvailable");
+		Book book = map2.get(ISBN);
+		if(!book.isAvailable()){
+			throw new LibrarySystemException("Book is unvailable");
 		}
-		bookCopy.getNextAvailableCopy();
-		int maxCheckoutLength = bookCopy.getMaxCheckoutLength();
-		((LibraryMember) libraryMember).checkout(bookCopy,LocalDate.now(),LocalDate.now().getDayOfMonth()+maxCheckoutLength);
 		
+		int maxCheckoutLength = book.getMaxCheckoutLength();
+		BookCopy bookCopy = book.getNextAvailableCopy();
+		
+		((LibraryMember) libraryMember).checkout(bookCopy,LocalDate.now(),LocalDate.now().getDayOfMonth()+maxCheckoutLength);
+		DataAccessFacade.saveToStorage(DataAccessFacade.StorageType.MEMBERS, libraryMember);
+		DataAccessFacade.saveToStorage(DataAccessFacade.StorageType.BOOKS, book);
 	}
 	@Override
-=======
-	
->>>>>>> 28bf1d55e15e56cb54e09bb4354ac5f740972a7a
+
 	public Auth login(String id, String password) throws LoginException {
 		DataAccess da = new DataAccessFacade();
 		HashMap<String, User> map = da.readUserMap();
@@ -82,6 +74,7 @@ public class SystemController implements ControllerInterface {
 	
 	@Override
 	public void addNewLibaryMember(LibraryMember member) throws LibrarySystemException {
+
 		// TODO Auto-generated method stub
 		
 		DataAccess da = new DataAccessFacade();
@@ -98,10 +91,8 @@ public class SystemController implements ControllerInterface {
 		members.add(member);
 		DataAccessFacade.loadMemberMap(members);
 	}
-	
-	
 }
-<<<<<<< HEAD
+
 //=======
 //package business;
 //
@@ -166,5 +157,4 @@ public class SystemController implements ControllerInterface {
 //	
 //}
 //>>>>>>> 04a0959c7a61f48be86d4b7773a4f5e473a0147d
-=======
->>>>>>> 28bf1d55e15e56cb54e09bb4354ac5f740972a7a
+

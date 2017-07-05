@@ -11,6 +11,8 @@ public class CheckoutRecord {
 		checkoutRecordEntry = new ArrayList<CheckoutRecordEntry>();
 	}
 	
-	
+	public void addEntry(CheckoutRecordEntry entry){
+		checkoutRecordEntry.add(entry);
+	}
 
 }

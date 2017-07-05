@@ -17,7 +17,7 @@ import dataaccess.DataAccessFacade.StorageType;
 
 public class DataAccessFacade implements DataAccess {
 	
-	enum StorageType {
+	public enum StorageType {
 		BOOKS, MEMBERS, USERS;
 	}
 	
@@ -71,7 +71,7 @@ public class DataAccessFacade implements DataAccess {
 		saveToStorage(StorageType.MEMBERS, members);
 	}
 	
-	static void saveToStorage(StorageType type, Object ob) {
+	public static void saveToStorage(StorageType type, Object ob) {
 		ObjectOutputStream out = null;
 		try {
 			Path path = FileSystems.getDefault().getPath(OUTPUT_DIR, type.toString());
