@@ -130,5 +130,15 @@ public class SystemController implements ControllerInterface {
 		authors.add(author);
 		DataAccessFacade.loadAuthorMap(authors);
 	}
+	// Search Member
+	public LibraryMember searchMember(String memberId){
+		DataAccess da = new DataAccessFacade();
+		HashMap<String, LibraryMember> map = da.readMemberMap();
+		if (map.containsKey(memberId)) {
+			return map.get(memberId);
+		}else{
+			return null;
+		}
+	}
 }
 
