@@ -50,6 +50,19 @@ public class BothWindow extends Stage implements LibWindow {
         hbxBtn.getChildren().add(btnAddMember);
         grid.add(hbxBtn, 1, 1);
         
+        btnAddMember.setOnAction(new EventHandler(){	// add a button listener
+			@Override
+			public void handle(Event event) {
+				// TODO Auto-generated method stub
+				Start.hideAllWindows();
+				if(!AddNewMemberWindow.INSTANCE.isInitialized()) {
+					AddNewMemberWindow.INSTANCE.init();
+				}
+				BothWindow.INSTANCE.hide();
+        		AddNewMemberWindow.INSTANCE.show();
+			}
+        });
+        
         // Edit Member Button
         Button btnEditMember = new Button();
         btnEditMember.setText("Edit Member");
@@ -58,21 +71,63 @@ public class BothWindow extends Stage implements LibWindow {
         hbxBtn2.getChildren().add(btnEditMember);
         grid.add(hbxBtn2, 1, 2);
         
+        // All Member IDs button
+        Button btnAllMembersID = new Button();
+        btnAllMembersID.setText("All Members ID");
+        HBox hbxBtn3 = new HBox(10);
+        hbxBtn3.setAlignment(Pos.BOTTOM_LEFT);
+        hbxBtn3.getChildren().add(btnAllMembersID);
+        grid.add(hbxBtn3, 1, 3);
+        
+        btnAllMembersID.setOnAction(new EventHandler(){	// add a button listener
+			@Override
+			public void handle(Event event) {
+				// TODO Auto-generated method stub
+				Start.hideAllWindows();
+				if(!AllMembersWindow.INSTANCE.isInitialized()) {
+					AllMembersWindow.INSTANCE.init();
+				}
+				BothWindow.INSTANCE.hide();
+        		AllMembersWindow.INSTANCE.show();
+			}
+        });
+        
         // Add book Button
         Button btnAddBook = new Button();
         btnAddBook.setText("Add Book");
-        HBox hbxBtn3 = new HBox(10);
-        hbxBtn3.setAlignment(Pos.BOTTOM_LEFT);
-        hbxBtn3.getChildren().add(btnAddBook);
-        grid.add(hbxBtn3, 1, 3);
+        HBox hbxBtn4 = new HBox(10);
+        hbxBtn4.setAlignment(Pos.BOTTOM_LEFT);
+        hbxBtn4.getChildren().add(btnAddBook);
+        grid.add(hbxBtn4, 1, 4);
+        
+        // All Book IDs Button
+        Button btnAllBooks = new Button();
+        btnAllBooks.setText("All Books IDs");
+        HBox hbxBtn5 = new HBox(10);
+        hbxBtn5.setAlignment(Pos.BOTTOM_LEFT);
+        hbxBtn5.getChildren().add(btnAllBooks);
+        grid.add(hbxBtn5, 1, 5);
+        
+        btnAllBooks.setOnAction(new EventHandler(){	// add a button listener
+			@Override
+			public void handle(Event event) {
+				// TODO Auto-generated method stub
+				Start.hideAllWindows();
+				if(!AllBooksWindow.INSTANCE.isInitialized()) {
+					AllBooksWindow.INSTANCE.init();
+				}
+				BothWindow.INSTANCE.hide();
+        		AllBooksWindow.INSTANCE.show();
+			}
+        });
         
         // Checkout Button
         Button btnCheckout = new Button();
         btnCheckout.setText("Checkout");
-        HBox hbxBtn4 = new HBox(10);
-        hbxBtn4.setAlignment(Pos.BOTTOM_LEFT);
-        hbxBtn4.getChildren().add(btnCheckout);
-        grid.add(hbxBtn4, 1, 4);
+        HBox hbxBtn6 = new HBox(10);
+        hbxBtn6.setAlignment(Pos.BOTTOM_LEFT);
+        hbxBtn6.getChildren().add(btnCheckout);
+        grid.add(hbxBtn6, 1, 6);
         
         // Logout Button
         Button btnLogout = new Button();
@@ -81,16 +136,16 @@ public class BothWindow extends Stage implements LibWindow {
 			@Override
 			public void handle(Event event) {
 				// TODO Auto-generated method stub
-				AdminWindow.INSTANCE.hide();
+				BothWindow.INSTANCE.hide();
 				Start.hideAllWindows();
         		Start.primStage().show();
 			}
         });
         
-        HBox hbxBtn5 = new HBox(10);
-        hbxBtn5.setAlignment(Pos.BOTTOM_LEFT);
-        hbxBtn5.getChildren().add(btnLogout);
-        grid.add(hbxBtn5, 1, 5);
+        HBox hbxBtn7 = new HBox(10);
+        hbxBtn7.setAlignment(Pos.BOTTOM_LEFT);
+        hbxBtn7.getChildren().add(btnLogout);
+        grid.add(hbxBtn7, 1, 7);
         
 		Scene scene = new Scene(grid);
 		scene.getStylesheets().add(getClass().getResource("library.css").toExternalForm());
