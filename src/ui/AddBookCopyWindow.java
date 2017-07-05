@@ -28,10 +28,9 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
-public class AddNewBookWindow extends Stage implements LibWindow {
-	public static final AddNewBookWindow INSTANCE = new AddNewBookWindow();
+public class AddBookCopyWindow extends Stage implements LibWindow {
+	public static final AddBookCopyWindow INSTANCE = new AddBookCopyWindow();
 	private boolean isInitialized = false;
-	private Book book;
 	Alert alert = new Alert(Alert.AlertType.INFORMATION);
 
 	private Text messageBar = new Text();
@@ -40,10 +39,10 @@ public class AddNewBookWindow extends Stage implements LibWindow {
 		messageBar.setText("");
 	}
 
-	private AddNewBookWindow() {
+	private AddBookCopyWindow() {
 		alert.setTitle("Warning");
 	}
-
+	
 	@Override
 	public boolean isInitialized() {
 		// TODO Auto-generated method stub
@@ -55,13 +54,9 @@ public class AddNewBookWindow extends Stage implements LibWindow {
 		// TODO Auto-generated method stub
 		isInitialized = val;
 	}
-
+	
 	@Override
 	public void init() {
-		// TODO Auto-generated method stub
-		//clear AUTORS file data
-		List<Author> a = new ArrayList<Author>();
-		DataAccessFacade.loadAuthorMap(a);
 		
 		GridPane grid = new GridPane();
 		grid.setId("top-container");
@@ -70,7 +65,7 @@ public class AddNewBookWindow extends Stage implements LibWindow {
 		grid.setVgap(10);
 		grid.setPadding(new Insets(25, 25, 25, 25));
 
-		Text scenetitle = new Text("Add New Book");
+		Text scenetitle = new Text("Add Book Copy");
 		scenetitle.setFont(Font.font("Georgia", FontWeight.NORMAL, 20)); // Tahoma
 		grid.add(scenetitle, 0, 0, 2, 1);
 
@@ -81,49 +76,10 @@ public class AddNewBookWindow extends Stage implements LibWindow {
 		TextField ISBNTextField = new TextField();
 		grid.add(ISBNTextField, 1, 1);
 
-		// title
-		Label title = new Label("Title:");
-		grid.add(title, 0, 2);
-		grid.setGridLinesVisible(false);
-
-		TextField titleTextField = new TextField();
-		grid.add(titleTextField, 1, 2);
-
-		// copiesNum
-		Label copiesNum = new Label("CopiesNum:");
-		grid.add(copiesNum, 2, 1);
-
-		TextField copiesNumTextField = new TextField();
-		grid.add(copiesNumTextField, 3, 1);
-
-		// maximum
-		Label maximum = new Label("Maximum:");
-		grid.add(maximum, 2, 2);
-		grid.setGridLinesVisible(false);
-
-		TextField maximumTextField = new TextField();
-		grid.add(maximumTextField, 3, 2);
-
-		// add authors button
-
-		Label authors = new Label("Authors:");
-		grid.add(authors, 0, 3);
-
-		Button authorsButton = new Button("Add Author");
-		grid.add(authorsButton, 1, 3);
-
-		authorsButton.setOnAction(new EventHandler<ActionEvent>() {
-			@Override
-			public void handle(ActionEvent e) {
-				if (!AddNewAuthorsWindow.INSTANCE.isInitialized()) {
-					AddNewAuthorsWindow.INSTANCE.init();
-				}
-				AddNewAuthorsWindow.INSTANCE.show();
-			}
-		});
+		
 
 		// add submit button
-		Button submitBtn = new Button("Submit");
+		Button submitBtn = new Button("Add");
 		HBox hbBtn = new HBox(10);
 		hbBtn.setAlignment(Pos.BOTTOM_RIGHT);
 		hbBtn.getChildren().add(submitBtn);
@@ -141,37 +97,20 @@ public class AddNewBookWindow extends Stage implements LibWindow {
 				try {
 					ControllerInterface c = new SystemController();
 					String ISBN = ISBNTextField.getText().trim();
-					String title = titleTextField.getText().trim();
-					String authors = authorsButton.getText().trim();
-					String maximum = maximumTextField.getText().trim();
-					String copiesNum = copiesNumTextField.getText().trim();
 
 					// rules
 					String exceptionMessage = "This item must not be empty:";
 					boolean throwException = false;
+					DataAccess da = new DataAccessFacade();
+					HashMap<String, Book> map = da.readBooksMap();
+					
 					if (ISBN == null || ISBN.isEmpty()) {
 						exceptionMessage += "ISBN";
 						throwException = true;
-					} else if (title == null || title.isEmpty()) {
-						exceptionMessage += "title";
-						throwException = true;
-					} else if (authors == null || authors.isEmpty()) {
-						exceptionMessage += "authors";
-						throwException = true;
-					} else if (maximum == null || maximum.isEmpty()) {
-						exceptionMessage += "maximum";
-						throwException = true;
-					} else if (copiesNum == null || copiesNum.isEmpty()) {
-						exceptionMessage += "copiesNum";
-						throwException = true;
 					} else {
-						if (!maximum.matches("[0-9]+")) {
-							exceptionMessage = "Maximum Must Be Number";
-							throwException = true;
-						}
-
-						if (!copiesNum.matches("[0-9]+")) {
-							exceptionMessage = "CopiesNum Must Be Number";
+						
+						if(map == null ||map.isEmpty() || !map.containsKey(ISBN)){
+							exceptionMessage += "This book is not existence";
 							throwException = true;
 						}
 					}
@@ -181,28 +120,17 @@ public class AddNewBookWindow extends Stage implements LibWindow {
 					}
 
 					// add new book
-					List<Author> authorList = new ArrayList<Author>();
+					map.get(ISBN).addCopy();
+					
+					List<Book> bookList = new ArrayList<Book>();
 
-					// get Authors
-					DataAccess da = new DataAccessFacade();
-					HashMap<String, Author> map = da.readAuthorMap();
-					if (map == null || map.isEmpty()) {
-						throw new LibrarySystemException("The Author is empty");
-
-					} else {
-
-						for (Map.Entry<String, Author> entry : map.entrySet()) {
-							authorList.add(entry.getValue());
-						}
+					for (Map.Entry<String, Book> entry : map.entrySet()) {
+						bookList.add(entry.getValue());
 					}
-
-					book = new Book(ISBN, title, Integer.parseInt(maximum), authorList);
-					c.addNewBook(book, Integer.parseInt(copiesNum));
-
-					// messageBar.setFill(Start.Colors.green);
-					// messageBar.setText("Add successful");
+					DataAccessFacade.loadBookMap(bookList);
+					
 					alert.setHeaderText(null);
-					alert.setContentText("Add successful");
+					alert.setContentText("Add successful.This book has "+map.get(ISBN).getNumCopies()+" Copies");
 					alert.showAndWait();
 					List<Author> a = new ArrayList<Author>();
 					DataAccessFacade.loadAuthorMap(a);
