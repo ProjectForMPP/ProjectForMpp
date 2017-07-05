@@ -71,6 +71,27 @@ public class LibrarianWindow extends Stage implements LibWindow {
 			}
         });
         
+        // Search Member Button
+        Button btnSearchMember = new Button();
+        btnSearchMember.setText("Search Member");
+        HBox hbxBtn3 = new HBox(10);
+        hbxBtn3.setAlignment(Pos.BOTTOM_LEFT);
+        hbxBtn3.getChildren().add(btnSearchMember);
+        grid.add(hbxBtn3, 1, 3);
+        
+        btnSearchMember.setOnAction(new EventHandler(){	// add a button listener
+			@Override
+			public void handle(Event event) {
+				// TODO Auto-generated method stub
+				Start.hideAllWindows();
+				if(!SearchMemberWindow.INSTANCE.isInitialized()) {
+					SearchMemberWindow.INSTANCE.init();
+				}
+				LibrarianWindow.INSTANCE.hide();
+        		SearchMemberWindow.INSTANCE.show();
+			}
+        });
+        
         // Logout Button
         Button btnLogout = new Button();
         btnLogout.setText("Logout");
@@ -84,10 +105,10 @@ public class LibrarianWindow extends Stage implements LibWindow {
 			}
         });
         
-        HBox hbxBtn3 = new HBox(10);
-        hbxBtn3.setAlignment(Pos.BOTTOM_LEFT);
-        hbxBtn3.getChildren().add(btnLogout);
-        grid.add(hbxBtn3, 1, 3);
+        HBox hbxBtn4 = new HBox(10);
+        hbxBtn4.setAlignment(Pos.BOTTOM_LEFT);
+        hbxBtn4.getChildren().add(btnLogout);
+        grid.add(hbxBtn4, 1, 4);
 		
 		Scene scene = new Scene(grid);
 		scene.getStylesheets().add(getClass().getResource("library.css").toExternalForm());
