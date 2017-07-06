@@ -14,17 +14,14 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
@@ -32,7 +29,7 @@ import javafx.stage.Stage;
 
 public class AllBooksWindow extends Stage implements LibWindow {
 	public static final AllBooksWindow INSTANCE = new AllBooksWindow();
-	private final TableView<BookInfo> table = new TableView<>();
+	private  TableView<BookInfo> table;
 	
 	private boolean isInitialized = false;
 	public boolean isInitialized() {
@@ -48,6 +45,8 @@ public class AllBooksWindow extends Stage implements LibWindow {
 	private AllBooksWindow() {}
 	
 	public void init() {
+		 table = new TableView<>();
+		 
 		GridPane grid = new GridPane();
 		grid.setId("top-container");
 		grid.setAlignment(Pos.CENTER);
@@ -105,8 +104,8 @@ public class AllBooksWindow extends Stage implements LibWindow {
         memberCol.setCellValueFactory(new PropertyValueFactory<>("member"));
         
         table.setItems(data);
+        table.setPrefWidth(800);
         table.getColumns().addAll(isbnCol, authorNameCol, CopiesNumCol,TitleCol,CopyNumberCol,memberCol);
-        
         
         
         grid.add(table, 0, 1);
