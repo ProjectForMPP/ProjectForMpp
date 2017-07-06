@@ -8,6 +8,7 @@ import java.util.List;
 
 import business.CheckoutRecord;
 import business.CheckoutRecordEntry;
+import business.CheckoutSet;
 import business.LibraryMember;
 import business.LibrarySystemException;
 import business.SystemController;
@@ -93,30 +94,37 @@ public class CheckoutWindow extends Stage implements LibWindow {
 				String ISBN = textFieldISBN.getText();
 				try {
 					// check out
-					CheckoutRecord checkoutRecord = sc.checkoutBook(memberId, ISBN);
-					CheckoutRecordEntry checkoutRecordEntry = checkoutRecord.getEntry(ISBN); // get Entry
+					CheckoutSet checkoutSet = sc.checkoutBook(memberId, ISBN);
+					//CheckoutRecordEntry checkoutRecordEntry = checkoutRecord.getEntry(ISBN); // get Entry
 					// display in TableView
-					String bookName = checkoutRecordEntry.getBookCopy().getBook().getTitle();
-					LocalDate nowDate = checkoutRecordEntry.getCheckoutDate();
-					LocalDate dueDate = checkoutRecordEntry.getDueDate();
-					DateTimeFormatter formatter = DateTimeFormatter.BASIC_ISO_DATE;
-					String strNowDate = formatter.format(nowDate);
-					String strDueDate = formatter.format(dueDate);
-					CheckoutRecordInfo checkoutRecordInfo = new CheckoutRecordInfo(bookName,strNowDate,strDueDate);
+					String bookName = checkoutSet.getBookName();							//	get book name
+					DateTimeFormatter formatter = DateTimeFormatter.BASIC_ISO_DATE;			//  Date format
+					String strCheckoutDate = formatter.format(checkoutSet.getCheckoutDate());	//	checkout date
+					String strDueDate = formatter.format(checkoutSet.getDueDate());			//	due date
+					int intCopyNum = checkoutSet.getCopyNumber();							//	get Copy Number
+					String copyNum = String.valueOf(intCopyNum);
+					// set the value to TableView
+					CheckoutRecordInfo checkoutRecordInfo = new CheckoutRecordInfo(ISBN,bookName,strCheckoutDate,strDueDate,memberId,copyNum);
 					CheckoutRecordInfoList.add(checkoutRecordInfo);
 					// setup TableView
 					final ObservableList<CheckoutRecordInfo> data = FXCollections.observableArrayList(CheckoutRecordInfoList);
 			        // setup column
+					TableColumn ISBNCol = new TableColumn("ISBN");
+			        ISBNCol.setCellValueFactory(new PropertyValueFactory<>("ISBN"));
 			        TableColumn bookNameCol = new TableColumn("Book Name");
 			        bookNameCol.setCellValueFactory(new PropertyValueFactory<>("bookName"));
 			        TableColumn checkoutDateCol = new TableColumn("Checkout Date");
 			        checkoutDateCol.setCellValueFactory(new PropertyValueFactory<>("checkoutDate"));
 			        TableColumn dueDateCol = new TableColumn("Due Date");
 			        dueDateCol.setCellValueFactory(new PropertyValueFactory<>("dueDate"));
+			        TableColumn memberIDCol = new TableColumn("Member");
+			        memberIDCol.setCellValueFactory(new PropertyValueFactory<>("memberID"));
+			        TableColumn copyNumberCol = new TableColumn("Copy Number");
+			        copyNumberCol.setCellValueFactory(new PropertyValueFactory<>("copyNumber"));
 			        
 			        table.setItems(data);
-			        table.setPrefWidth(500);
-			        table.getColumns().addAll(bookNameCol, checkoutDateCol, dueDateCol);
+			        table.setPrefWidth(800);
+			        table.getColumns().addAll(ISBNCol,bookNameCol, checkoutDateCol, dueDateCol,memberIDCol,copyNumberCol);
 			               
 			        grid.add(table, 0, 1);
 			        // hide the butten,label and textField

@@ -11,13 +11,14 @@ import java.util.List;
 
 import business.Author;
 import business.Book;
+import business.CheckoutSet;
 import business.LibraryMember;
 
 
 public class DataAccessFacade implements DataAccess {
 	
 	public enum StorageType {
-		BOOKS, MEMBERS, USERS,AUTHORS;
+		BOOKS, MEMBERS, USERS, AUTHORS, CHECKOUTRECORDS;
 
 	}
 	
@@ -56,6 +57,13 @@ public class DataAccessFacade implements DataAccess {
 		//   userId -> User
 		return (HashMap<String, Author>)readFromStorage(StorageType.AUTHORS);
 	}
+	// read the checkout record from the file system @by Ma
+	@SuppressWarnings("unchecked")
+	public HashMap<Integer, CheckoutSet> readCheckoutRecordsMap() {
+		//Returns a Map with name/value pairs being
+		//   userId -> User
+		return (HashMap<Integer, CheckoutSet>)readFromStorage(StorageType.CHECKOUTRECORDS);
+	}
 	/////load methods - these place test data into the storage area
 	///// - used just once at startup  
 	//static void loadMemberMap(List<LibraryMember> memberList) {
@@ -81,6 +89,13 @@ public class DataAccessFacade implements DataAccess {
 		HashMap<String, Author> authors = new HashMap<String, Author>();
 		authorList.forEach(author -> authors.put(author.getBio(), author));
 		saveToStorage(StorageType.AUTHORS, authors);
+	}
+	
+	// load the checkout records @by Ma
+	public static void loadCheckoutRecordsMap(List<CheckoutSet> checkoutSetList) {
+		HashMap<Integer, CheckoutSet> checkoutSetMap = new HashMap<Integer, CheckoutSet>();
+		checkoutSetList.forEach(cs -> checkoutSetMap.put(cs.getCopyNumber(), cs));
+		saveToStorage(StorageType.CHECKOUTRECORDS, checkoutSetMap);
 	}
 	
 	

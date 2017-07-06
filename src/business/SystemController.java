@@ -22,17 +22,17 @@ public class SystemController implements ControllerInterface {
 
 	public static Auth currentAuth = null;
 	
-	public CheckoutRecord checkoutBook(String memberId,String ISBN) throws LibrarySystemException{
+	public CheckoutSet checkoutBook(String memberId,String ISBN) throws LibrarySystemException{
 		DataAccess da = new DataAccessFacade(); 
 		HashMap<String, LibraryMember>memberMap = da.readMemberMap();
 		HashMap<String, Book>bookMap = da.readBooksMap();
 		if(!memberMap.containsKey(memberId)){
-			throw new LibrarySystemException("MemberId"+memberId+"not found");
+			throw new LibrarySystemException("MemberId "+memberId+" not found");
 		}
 		
 		LibraryMember libraryMember = memberMap.get(memberId);			// get the member for checkout
 		if(!bookMap.containsKey(ISBN)){
-			throw new LibrarySystemException("ISBN"+ISBN+"not found");
+			throw new LibrarySystemException("ISBN "+ISBN+" not found");
 		}
 		Book book = bookMap.get(ISBN);							// get the book for checkout
 		if(!book.isAvailable()){
@@ -49,20 +49,24 @@ public class SystemController implements ControllerInterface {
 		bookCopy.changeAvailability();								// change book copy unavailability
 		checkoutRecord.addEntry(checkoutRecordEntry);				// add the checkoutRecordEntry to checkoutRecord
 		libraryMember.setCheckoutRecord(checkoutRecord);			// add the checkout record to library member
-		//System.out.println(libraryMember);
-		//System.out.println(checkoutRecord);
-		//System.out.println(checkoutRecordEntry);
-		
-		return libraryMember.getCheckoutRecord();
-		
-		//LocalDate dueDate = localDate.
-		//System.out.println(dueDate);
-		//int maxCheckoutLength = book.getMaxCheckoutLength();
-		//BookCopy bookCopy = book.getNextAvailableCopy();
-		
-		//((LibraryMember) libraryMember).checkout(bookCopy,LocalDate.now(),LocalDate.now().getDayOfMonth()+maxCheckoutLength);
-		//DataAccessFacade.saveToStorage(DataAccessFacade.StorageType.MEMBERS, libraryMember);
-		//DataAccessFacade.saveToStorage(DataAccessFacade.StorageType.BOOKS, book);
+		// buildup a checkoutSet
+		CheckoutSet checkoutSet = new CheckoutSet();
+		checkoutSet.setISBN(ISBN);
+		checkoutSet.setMemberID(memberId);
+		checkoutSet.setBookName(checkoutRecordEntry.getBookCopy().getBook().getTitle());
+		checkoutSet.setCopyNumber(checkoutRecordEntry.getBookCopy().getCopyNum());
+		checkoutSet.setCheckoutDate(DateToLocalDate(nowDate));
+		checkoutSet.setDueDate(DateToLocalDate(dueDate));
+		// save the new checkout record to file system
+		HashMap<Integer, CheckoutSet> map = da.readCheckoutRecordsMap();
+		List<CheckoutSet> checkoutSetList = new ArrayList<CheckoutSet>();
+		for (Map.Entry<Integer, CheckoutSet> entry : map.entrySet()) {
+			checkoutSetList.add(entry.getValue());
+		}
+
+		checkoutSetList.add(checkoutSet);
+		DataAccessFacade.loadCheckoutRecordsMap(checkoutSetList);
+		return checkoutSet;
 	}
 	
 	// Search for Due Date
