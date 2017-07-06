@@ -1,8 +1,13 @@
 
 package business;
 
+import java.time.Instant;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -17,31 +22,76 @@ public class SystemController implements ControllerInterface {
 
 	public static Auth currentAuth = null;
 	
-	public void checkoutBook(String memberId,String ISBN) throws LibrarySystemException{
-		DataAccess da = new DataAccessFacade();
-		HashMap<String, LibraryMember>map1 = da.readMemberMap();
-		HashMap<String, Book>map2 = da.readBooksMap();
-		if(!map1.containsKey(memberId)){
+	public CheckoutRecord checkoutBook(String memberId,String ISBN) throws LibrarySystemException{
+		DataAccess da = new DataAccessFacade(); 
+		HashMap<String, LibraryMember>memberMap = da.readMemberMap();
+		HashMap<String, Book>bookMap = da.readBooksMap();
+		if(!memberMap.containsKey(memberId)){
 			throw new LibrarySystemException("MemberId"+memberId+"not found");
 		}
 		
-		Person libraryMember = map1.get(memberId);
-		if(!map2.containsKey(ISBN)){
+		LibraryMember libraryMember = memberMap.get(memberId);			// get the member for checkout
+		if(!bookMap.containsKey(ISBN)){
 			throw new LibrarySystemException("ISBN"+ISBN+"not found");
 		}
-		Book book = map2.get(ISBN);
+		Book book = bookMap.get(ISBN);							// get the book for checkout
 		if(!book.isAvailable()){
 			throw new LibrarySystemException("Book is unvailable");
 		}
 		
-		int maxCheckoutLength = book.getMaxCheckoutLength();
-		BookCopy bookCopy = book.getNextAvailableCopy();
+		// get the date now and get the due Date
+		int dueDay = book.getMaxCheckoutLength();					// the Max Checkout length of days
+		Date nowDate = new Date();									// get the date now
+		Date dueDate = getDueDate(nowDate,dueDay);					// get due date
+		CheckoutRecord checkoutRecord = new CheckoutRecord();		// declare checkoutRecord
+		BookCopy bookCopy = book.getNextAvailableCopy();			// get the next available copy of the book
+		CheckoutRecordEntry checkoutRecordEntry = new CheckoutRecordEntry(DateToLocalDate(nowDate),DateToLocalDate(dueDate),bookCopy,checkoutRecord);
+		bookCopy.changeAvailability();								// change book copy unavailability
+		checkoutRecord.addEntry(checkoutRecordEntry);				// add the checkoutRecordEntry to checkoutRecord
+		libraryMember.setCheckoutRecord(checkoutRecord);			// add the checkout record to library member
+		//System.out.println(libraryMember);
+		//System.out.println(checkoutRecord);
+		//System.out.println(checkoutRecordEntry);
 		
-		((LibraryMember) libraryMember).checkout(bookCopy,LocalDate.now(),LocalDate.now().getDayOfMonth()+maxCheckoutLength);
-		DataAccessFacade.saveToStorage(DataAccessFacade.StorageType.MEMBERS, libraryMember);
-		DataAccessFacade.saveToStorage(DataAccessFacade.StorageType.BOOKS, book);
+		return libraryMember.getCheckoutRecord();
+		
+		//LocalDate dueDate = localDate.
+		//System.out.println(dueDate);
+		//int maxCheckoutLength = book.getMaxCheckoutLength();
+		//BookCopy bookCopy = book.getNextAvailableCopy();
+		
+		//((LibraryMember) libraryMember).checkout(bookCopy,LocalDate.now(),LocalDate.now().getDayOfMonth()+maxCheckoutLength);
+		//DataAccessFacade.saveToStorage(DataAccessFacade.StorageType.MEMBERS, libraryMember);
+		//DataAccessFacade.saveToStorage(DataAccessFacade.StorageType.BOOKS, book);
 	}
 	
+	// Search for Due Date
+	public Book SearchDueDate(String ISBN) throws LibrarySystemException{
+		DataAccess da = new DataAccessFacade(); 
+		HashMap<String, Book>bookMap = da.readBooksMap();
+		if(!bookMap.containsKey(ISBN)){
+			throw new LibrarySystemException("ISBN "+ ISBN +" not found");
+		}
+		return bookMap.get(ISBN);	// get the book
+	}
+	
+	// get the due date: just for get the date after the date d.
+	public Date getDueDate(Date d,int day){  
+		Calendar now =Calendar.getInstance();  
+		   now.setTime(d);  
+		   now.set(Calendar.DATE,now.get(Calendar.DATE)+day);  
+		   return now.getTime();  
+	}
+	
+	// Date to LocalDate
+	public LocalDate DateToLocalDate(Date d){
+		LocalDate localDate;
+		Instant instant = d.toInstant();
+		ZoneId zone = ZoneId.systemDefault();
+		LocalDateTime localDateTime = LocalDateTime.ofInstant(instant, zone);
+		localDate = localDateTime.toLocalDate();
+		return localDate;
+	}
 	
 	@Override
 	public Auth login(String id, String password) throws LoginException {

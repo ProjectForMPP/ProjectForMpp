@@ -56,6 +56,11 @@ public class AddNewBookWindow extends Stage implements LibWindow {
 		isInitialized = val;
 	}
 
+	private static String fromTo = "";
+	public void setData(String data) {
+		fromTo = data;
+	}
+	
 	@Override
 	public void init() {
 		// TODO Auto-generated method stub
@@ -221,8 +226,25 @@ public class AddNewBookWindow extends Stage implements LibWindow {
 		backBtn.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent e) {
+				if(fromTo.isEmpty()){
+        			Start.hideAllWindows();
+            		Start.primStage().show();
+        		}else{
+        			if(fromTo.toUpperCase().equals("ADMIN")){
+        				if(!AdminWindow.INSTANCE.isInitialized()) {
+        					AdminWindow.INSTANCE.init();
+        				}
+        				
+        				AdminWindow.INSTANCE.show();
+        			}else if(fromTo.toUpperCase().equals("BOTH")){
+        				if(!BothWindow.INSTANCE.isInitialized()) {
+        					BothWindow.INSTANCE.init();
+        				}
+        				BothWindow.INSTANCE.show();
+        			}
+        		}
+				
 				AddNewBookWindow.INSTANCE.hide();
-				Start.primStage().show();
 			}
 		});
 		HBox hBack = new HBox(10);

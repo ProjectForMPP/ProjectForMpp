@@ -44,6 +44,11 @@ public class AddNewMemberWindow extends Stage implements LibWindow {
 		messageBar.setText("");
 	}
 	
+	private static String fromTo = "";
+	public void setData(String data) {
+		fromTo = data;
+	}
+	
 	@Override
 	public void init() {
 		// TODO Auto-generated method stub
@@ -230,8 +235,24 @@ public class AddNewMemberWindow extends Stage implements LibWindow {
         backBtn.setOnAction(new EventHandler<ActionEvent>() {
         	@Override
         	public void handle(ActionEvent e) {
-        		Start.hideAllWindows();
-        		Start.primStage().show();
+        		if(fromTo.isEmpty()){
+        			Start.hideAllWindows();
+            		Start.primStage().show();
+        		}else{
+        			if(fromTo.toUpperCase().equals("ADMIN")){
+        				if(!AdminWindow.INSTANCE.isInitialized()) {
+        					AdminWindow.INSTANCE.init();
+        				}
+        				AdminWindow.INSTANCE.show();
+        			}else if(fromTo.toUpperCase().equals("BOTH")){
+        				if(!BothWindow.INSTANCE.isInitialized()) {
+        					BothWindow.INSTANCE.init();
+        				}
+        				BothWindow.INSTANCE.show();
+        			}
+        		}
+        		
+        		AddNewMemberWindow.INSTANCE.hide();
         	}
         });
         HBox hBack = new HBox(10);

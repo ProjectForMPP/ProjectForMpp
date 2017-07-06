@@ -18,7 +18,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.control.TextArea;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
@@ -31,6 +30,11 @@ public class AllBooksWindow extends Stage implements LibWindow {
 	public static final AllBooksWindow INSTANCE = new AllBooksWindow();
 	private  TableView<BookInfo> table;
 	
+	private static String fromTo = "";
+	public void setData(String data) {
+		fromTo = data;
+	}
+	
 	private boolean isInitialized = false;
 	public boolean isInitialized() {
 		return isInitialized;
@@ -38,10 +42,7 @@ public class AllBooksWindow extends Stage implements LibWindow {
 	public void isInitialized(boolean val) {
 		isInitialized = val;
 	}
-	private TextArea ta;
-	public void setData(String data) {
-		ta.setText(data);
-	}
+	
 	private AllBooksWindow() {}
 	
 	public void init() {
@@ -115,8 +116,23 @@ public class AllBooksWindow extends Stage implements LibWindow {
         backBtn.setOnAction(new EventHandler<ActionEvent>() {
         	@Override
         	public void handle(ActionEvent e) {
-        		Start.hideAllWindows();
-        		Start.primStage().show();
+        		if(fromTo.isEmpty()){
+        			Start.hideAllWindows();
+            		Start.primStage().show();
+        		}else{
+        			if(fromTo.toUpperCase().equals("ADMIN")){
+        				if(!AdminWindow.INSTANCE.isInitialized()) {
+        					AdminWindow.INSTANCE.init();
+        				}
+        				AdminWindow.INSTANCE.show();
+        			}else if(fromTo.toUpperCase().equals("BOTH")){
+        				if(!BothWindow.INSTANCE.isInitialized()) {
+        					BothWindow.INSTANCE.init();
+        				}
+        				BothWindow.INSTANCE.show();
+        			}
+        		}
+        		AllBooksWindow.INSTANCE.hide();
         	}
         });
         HBox hBack = new HBox(10);

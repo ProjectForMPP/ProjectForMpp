@@ -40,10 +40,10 @@ public class AllMembersWindow extends Stage implements LibWindow {
 	public void isInitialized(boolean val) {
 		isInitialized = val;
 	}
-//	private TextArea ta;
-//	public void setData(String data) {
-//		ta.setText(data);
-//	}
+	private static String fromTo = "";
+	public void setData(String data) {
+		fromTo = data;
+	}
 	private AllMembersWindow() {}
 	
 	public void init() {
@@ -116,12 +116,29 @@ public class AllMembersWindow extends Stage implements LibWindow {
 //		ta = new TextArea();
 //		grid.add(ta, 0,1);	
 		
-		Button backBtn = new Button("Back to Main");
+		Button backBtn = new Button("Back");
         backBtn.setOnAction(new EventHandler<ActionEvent>() {
         	@Override
         	public void handle(ActionEvent e) {
-        		Start.hideAllWindows();
-        		Start.primStage().show();
+        		if(fromTo.isEmpty()){
+        			Start.hideAllWindows();
+            		Start.primStage().show();
+        		}else{
+        			if(fromTo.toUpperCase().equals("ADMIN")){
+        				if(!AdminWindow.INSTANCE.isInitialized()) {
+        					AdminWindow.INSTANCE.init();
+        				}
+        				AllMembersWindow.INSTANCE.hide();
+        				AdminWindow.INSTANCE.show();
+        			}else if(fromTo.toUpperCase().equals("BOTH")){
+        				if(!BothWindow.INSTANCE.isInitialized()) {
+        					BothWindow.INSTANCE.init();
+        				}
+        				AllMembersWindow.INSTANCE.hide();
+        				BothWindow.INSTANCE.show();
+        			}
+        		}
+        		
         	}
         });
         HBox hBack = new HBox(10);

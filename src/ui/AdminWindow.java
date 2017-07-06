@@ -5,6 +5,7 @@ import java.util.List;
 
 import business.ControllerInterface;
 import business.SystemController;
+import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -55,15 +56,16 @@ public class AdminWindow extends Stage implements LibWindow {
         hbxBtn.getChildren().add(btnAddMember);
         grid.add(hbxBtn, 1, 1);
         
-        btnAddMember.setOnAction(new EventHandler(){	// add a button listener
+        btnAddMember.setOnAction(new EventHandler<ActionEvent>(){	// add a button listener
 			@Override
-			public void handle(Event event) {
+			public void handle(ActionEvent event) {
 				// TODO Auto-generated method stub
 				//Start.hideAllWindows();
 				if(!AddNewMemberWindow.INSTANCE.isInitialized()) {
 					AddNewMemberWindow.INSTANCE.init();
 				}
-				//AdminWindow.INSTANCE.hide();
+				AddNewMemberWindow.INSTANCE.setData("ADMIN");
+				AdminWindow.INSTANCE.hide();
         		AddNewMemberWindow.INSTANCE.show();
 			}
         });
@@ -78,23 +80,41 @@ public class AdminWindow extends Stage implements LibWindow {
         
         // All Members ID Button
         Button btnAllMembersID = new Button();
-        btnAllMembersID.setText("All Members ID");
+        btnAllMembersID.setText("All Members");
         HBox hbxBtn3 = new HBox(10);
         hbxBtn3.setAlignment(Pos.BOTTOM_LEFT);
         hbxBtn3.getChildren().add(btnAllMembersID);
         grid.add(hbxBtn3, 1, 2);
         
-        btnAllMembersID.setOnAction(new EventHandler(){	// add a button listener
+        btnAllMembersID.setOnAction(new EventHandler<ActionEvent>(){	// add a button listener
 			@Override
-			public void handle(Event event) {
+			public void handle(ActionEvent event) {
 				// TODO Auto-generated method stub
 				if(!AllMembersWindow.INSTANCE.isInitialized()) {
 					AllMembersWindow.INSTANCE.init();
 				}
-				
+				AllMembersWindow.INSTANCE.setData("ADMIN");
+				AdminWindow.INSTANCE.hide();
 				AllMembersWindow.INSTANCE.show();
 			}
         });
+        
+        //All Books
+        Button bookBtn = new Button();
+        bookBtn.setText("All Books");
+        
+        grid.add(bookBtn, 1, 3);
+        bookBtn.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent e) {
+				if(!AllBooksWindow.INSTANCE.isInitialized()) {
+					AllBooksWindow.INSTANCE.init();
+				}
+				AllBooksWindow.INSTANCE.setData("ADMIN");
+				AdminWindow.INSTANCE.hide();
+				AllBooksWindow.INSTANCE.show();
+            }
+		});
         
         // Add book Button
         Button btnAddBook = new Button();
@@ -102,16 +122,18 @@ public class AdminWindow extends Stage implements LibWindow {
         HBox hbxBtn4 = new HBox(10);
         hbxBtn4.setAlignment(Pos.BOTTOM_LEFT);
         hbxBtn4.getChildren().add(btnAddBook);
-        grid.add(hbxBtn4, 1, 3);
+        grid.add(hbxBtn4, 1, 4);
         
-        btnAddBook.setOnAction(new EventHandler(){	// add a button listener
+        btnAddBook.setOnAction(new EventHandler<ActionEvent>(){	// add a button listener
 			@Override
-			public void handle(Event event) {
+			public void handle(ActionEvent event) {
 				// TODO Auto-generated method stub
 				if(!AddNewBookWindow.INSTANCE.isInitialized()) {
 					AddNewBookWindow.INSTANCE.init();
 				}
 			
+				AddNewBookWindow.INSTANCE.setData("ADMIN");
+				AdminWindow.INSTANCE.hide();
 				AddNewBookWindow.INSTANCE.show();
 			}
         });
@@ -119,9 +141,9 @@ public class AdminWindow extends Stage implements LibWindow {
         // Logout Button
         Button btnLogout = new Button();
         btnLogout.setText("Logout");
-        btnLogout.setOnAction(new EventHandler(){
+        btnLogout.setOnAction(new EventHandler<ActionEvent>(){
 			@Override
-			public void handle(Event event) {
+			public void handle(ActionEvent event) {
 				// TODO Auto-generated method stub
 				AdminWindow.INSTANCE.hide();
 				Start.hideAllWindows();
@@ -132,7 +154,7 @@ public class AdminWindow extends Stage implements LibWindow {
         HBox hbxBtn5 = new HBox(10);
         hbxBtn5.setAlignment(Pos.BOTTOM_LEFT);
         hbxBtn5.getChildren().add(btnLogout);
-        grid.add(hbxBtn5, 1, 4);
+        grid.add(hbxBtn5, 1, 5);
 		
 		Scene scene = new Scene(grid);
 		scene.getStylesheets().add(getClass().getResource("library.css").toExternalForm());
