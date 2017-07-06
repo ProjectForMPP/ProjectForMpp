@@ -7,25 +7,33 @@ import java.util.Map;
 import business.Author;
 import business.Book;
 import business.ControllerInterface;
+import business.LoginException;
 import business.SystemController;
+import dataaccess.Auth;
 import dataaccess.DataAccess;
 import dataaccess.DataAccessFacade;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.PasswordField;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 
@@ -63,136 +71,79 @@ public class Start extends Application {
 		primStage = primaryStage;
 		primaryStage.setTitle("Main Page");
 				
-		VBox topContainer = new VBox();
-		topContainer.setId("top-container");
-		MenuBar mainMenu = new MenuBar();
-		VBox imageHolder = new VBox();
-		Image image = new Image("ui/library.png", 400, 300, false, false);
+		GridPane grid = new GridPane();
+        grid.setId("top-container");
+        grid.setAlignment(Pos.CENTER);
+        grid.setHgap(10);
+        grid.setVgap(10);
+        grid.setPadding(new Insets(25, 25, 25, 25));
 
-        // simply displays in ImageView the image as is
-        ImageView iv = new ImageView();
-        iv.setImage(image);
-        imageHolder.getChildren().add(iv);
-        imageHolder.setAlignment(Pos.CENTER);
-        HBox splashBox = new HBox();
-        Label splashLabel = new Label("The Library System");
-        splashLabel.setFont(Font.font("Trajan Pro", FontWeight.BOLD, 30));
-        splashBox.getChildren().add(splashLabel);
-        splashBox.setAlignment(Pos.CENTER);
-		
-		topContainer.getChildren().add(mainMenu);
-		topContainer.getChildren().add(splashBox);
-		topContainer.getChildren().add(imageHolder);
-		
-		Menu optionsMenu = new Menu("Options");
-		MenuItem login = new MenuItem("Login");
-		
-		login.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent e) {
-            	hideAllWindows();
-    			if(!LoginWindow.INSTANCE.isInitialized()) {
-    				LoginWindow.INSTANCE.init();
-    			}
-    			LoginWindow.INSTANCE.clear();
-    			LoginWindow.INSTANCE.show();
-            }
-        });			
-							
-		MenuItem bookIds = new MenuItem("All Book Ids");
-		bookIds.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent e) {
-				hideAllWindows();
-				if(!AllBooksWindow.INSTANCE.isInitialized()) {
-					AllBooksWindow.INSTANCE.init();
-				}
-				AllBooksWindow.INSTANCE.show();
-            }
-		});
-		
-		MenuItem memberIds = new MenuItem("All Member Ids");
-		memberIds.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent e) {
-				hideAllWindows();
-				if(!AllMembersWindow.INSTANCE.isInitialized()) {
-					AllMembersWindow.INSTANCE.init();
-				}
-				AllMembersWindow.INSTANCE.show();
-            }
-		});	
-		
-		//Add new functional 
-		MenuItem newMemberId = new MenuItem("Add New Member Id");
-		newMemberId.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent e) {
-				hideAllWindows();
-				if(!AddNewMemberWindow.INSTANCE.isInitialized()) {
-					AddNewMemberWindow.INSTANCE.init();
-				}
-				ControllerInterface ci = new SystemController();
-				List<String> ids = ci.allMemberIds();
-				Collections.sort(ids);
-				System.out.println(ids);
-				StringBuilder sb = new StringBuilder();
-				for(String s: ids) {
-					sb.append(s + "\n");
-				}
-				System.out.println(sb.toString());
-//				AddNewMemberWindow.INSTANCE.setData(sb.toString());
-				AddNewMemberWindow.INSTANCE.show();
-            }
-		});	
-		//
-		MenuItem newBookId = new MenuItem("Add New Book");
-		newBookId.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent e) {
-				hideAllWindows();
-				if(!AddNewBookWindow.INSTANCE.isInitialized()) {
-					AddNewBookWindow.INSTANCE.init();
-				}
-				ControllerInterface ci = new SystemController();
-				List<String> ids = ci.allMemberIds();
-				Collections.sort(ids);
-				System.out.println(ids);
-				StringBuilder sb = new StringBuilder();
-				for(String s: ids) {
-					sb.append(s + "\n");
-				}
-				System.out.println(sb.toString());
-				AddNewBookWindow.INSTANCE.show();
-            }
-		});	
-		
-		//
-		MenuItem bookCopy = new MenuItem("Add Book Copy");
-		bookCopy.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent e) {
-				hideAllWindows();
-				if(!AddBookCopyWindow.INSTANCE.isInitialized()) {
-					AddBookCopyWindow.INSTANCE.init();
-				}
-				ControllerInterface ci = new SystemController();
-				List<String> ids = ci.allMemberIds();
-				Collections.sort(ids);
-				System.out.println(ids);
-				StringBuilder sb = new StringBuilder();
-				for(String s: ids) {
-					sb.append(s + "\n");
-				}
-				System.out.println(sb.toString());
-				AddBookCopyWindow.INSTANCE.show();
-            }
-		});
-		//
-		optionsMenu.getItems().addAll(login, bookIds, memberIds,newMemberId,newBookId,bookCopy);
+        Text scenetitle = new Text("Login");
+        scenetitle.setFont(Font.font("Georgia", FontWeight.NORMAL, 20)); //Tahoma
+        grid.add(scenetitle, 0, 0, 2, 1);
 
-		mainMenu.getMenus().addAll(optionsMenu);
-		Scene scene = new Scene(topContainer, 420, 375);
+        Label userName = new Label("User Name:");
+        grid.add(userName, 0, 1);
+
+        TextField userTextField = new TextField();
+        //userTextField.setPrefColumnCount(10);
+        //userTextField.setPrefWidth(30);
+        grid.add(userTextField, 1, 1);
+
+        Label pw = new Label("Password:");
+        grid.add(pw, 0, 2);
+        grid.setGridLinesVisible(false) ;
+
+        PasswordField pwBox = new PasswordField();
+        grid.add(pwBox, 1, 2);
+
+        Button loginBtn = new Button("Log in");
+        HBox hbBtn = new HBox(10);
+        hbBtn.setAlignment(Pos.BOTTOM_RIGHT);
+        hbBtn.getChildren().add(loginBtn);
+        grid.add(hbBtn, 1, 4);
+
+        HBox messageBox = new HBox(10);
+        messageBox.setAlignment(Pos.BOTTOM_RIGHT);
+        grid.add(messageBox, 1, 6);
+        
+        loginBtn.setOnAction(new EventHandler<ActionEvent>() {
+        	@Override
+        	public void handle(ActionEvent e) {
+        		try {
+        			ControllerInterface c = new SystemController();
+        			Auth currentAuth = c.login(userTextField.getText().trim(), pwBox.getText().trim());
+        			if(currentAuth==Auth.LIBRARIAN){
+        				// Librarian login
+        				Start.hideAllWindows();
+            			if(!LibrarianWindow.INSTANCE.isInitialized()) {
+            				LibrarianWindow.INSTANCE.init();
+            			}
+            			LibrarianWindow.INSTANCE.show();
+        			}else if(currentAuth==Auth.ADMIN){
+        				// Admin login
+        				Start.hideAllWindows();
+            			if(!AdminWindow.INSTANCE.isInitialized()) {
+            				AdminWindow.INSTANCE.init();
+            			}
+            			AdminWindow.INSTANCE.show();
+        			}else{
+        				// a user is both Librarian and Admin
+        				Start.hideAllWindows();
+            			if(!BothWindow.INSTANCE.isInitialized()) {
+            				BothWindow.INSTANCE.init();
+            			}
+            			BothWindow.INSTANCE.show();
+        			}	
+        		} catch(LoginException ex) {
+//        			messageBar.setFill(Start.Colors.red);
+//        			messageBar.setText("Error! " + ex.getMessage());
+        		}
+        	   
+        	}
+        });
+        
+		Scene scene = new Scene(grid, 420, 375);
 		primaryStage.setScene(scene);
 		scene.getStylesheets().add(getClass().getResource("library.css").toExternalForm());
 		primaryStage.show();
