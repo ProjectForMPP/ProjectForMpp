@@ -80,7 +80,9 @@ public class AllBooksWindow extends Stage implements LibWindow {
 				authors += author.getFirstName() +" " + author.getLastName()+" ";
 			}
 			bookInfo = new BookInfo(book.getIsbn(), authors, String.valueOf(book.getNumCopies()),book.getTitle(),
-					String.valueOf(book.getCopyNums()),"","");
+					String.valueOf(book.getCopyNums()),"","", Boolean.toString(book.isAvailable()));
+			
+			System.out.println("---:"+Boolean.toString(book.isAvailable()));
 			bookInfoList.add(bookInfo);
 		}
         //
@@ -101,8 +103,8 @@ public class AllBooksWindow extends Stage implements LibWindow {
         TableColumn CopyNumberCol = new TableColumn("Copy Number");
         CopyNumberCol.setCellValueFactory(new PropertyValueFactory<>("CopyNumber"));
         
-        TableColumn memberCol = new TableColumn("Member");
-        memberCol.setCellValueFactory(new PropertyValueFactory<>("member"));
+        TableColumn memberCol = new TableColumn("isAvailable");
+        memberCol.setCellValueFactory(new PropertyValueFactory<>("isAvailable"));
         
         table.setItems(data);
         table.setPrefWidth(800);

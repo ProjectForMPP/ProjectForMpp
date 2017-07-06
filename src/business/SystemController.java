@@ -47,7 +47,14 @@ public class SystemController implements ControllerInterface{
 		CheckoutRecord checkoutRecord = new CheckoutRecord();		// declare checkoutRecord
 		BookCopy bookCopy = book.getNextAvailableCopy();			// get the next available copy of the book
 		CheckoutRecordEntry checkoutRecordEntry = new CheckoutRecordEntry(DateToLocalDate(nowDate),DateToLocalDate(dueDate),bookCopy,checkoutRecord);
-		bookCopy.changeAvailability();								// change book copy unavailability
+		// change book copy unavailability
+		bookCopy.changeAvailability();	
+		book.updateCopies(bookCopy);
+		bookMap.remove(ISBN);
+		bookMap.put(ISBN, book);
+		
+		
+		
 		checkoutRecord.addEntry(checkoutRecordEntry);				// add the checkoutRecordEntry to checkoutRecord
 		libraryMember.setCheckoutRecord(checkoutRecord);			// add the checkout record to library member
 		// buildup a checkoutSet
@@ -73,6 +80,15 @@ public class SystemController implements ControllerInterface{
 
 		checkoutSetList.add(checkoutSet);
 		DataAccessFacade.loadCheckoutRecordsMap(checkoutSetList);
+		
+		
+		//write the book status into File
+		List<Book> bookList = new ArrayList<Book>();
+		for(Map.Entry<String, Book> entry:bookMap.entrySet()){
+			bookList.add(entry.getValue());
+		}
+		DataAccessFacade.loadBookMap(bookList);
+		
 		return checkoutSet;
 	}
 	

@@ -1,22 +1,16 @@
 package ui;
 
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
-import business.CheckoutRecord;
-import business.CheckoutRecordEntry;
 import business.CheckoutSet;
-import business.LibraryMember;
 import business.LibrarySystemException;
 import business.SystemController;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.Event;
 import javafx.event.EventHandler;
-import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -24,11 +18,9 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
@@ -38,6 +30,8 @@ public class CheckoutWindow extends Stage implements LibWindow {
 	public static final CheckoutWindow INSTANCE = new CheckoutWindow();
 	
 	private boolean isInitialized = false;
+	Alert dialog = new Alert(Alert.AlertType.INFORMATION);
+	
 	private  TableView<CheckoutRecordInfo> table;		// declare for Table View
 	public boolean isInitialized() {
 		return isInitialized;
@@ -46,7 +40,8 @@ public class CheckoutWindow extends Stage implements LibWindow {
 		isInitialized = val;
 	}
 
-	private CheckoutWindow() {}
+	private CheckoutWindow() {
+	}
 	
 	public void init() {
 		
@@ -57,7 +52,7 @@ public class CheckoutWindow extends Stage implements LibWindow {
 		grid.setAlignment(Pos.CENTER);
         grid.setHgap(10);
         grid.setVgap(10);
-        grid.setPadding(new Insets(25, 25, 25, 25));
+//        grid.setPadding(new Insets(25, 25, 25, 25));
 
         Text scenetitle = new Text("Checkout Book:");
         scenetitle.setFont(Font.font("Harlow Solid Italic", FontWeight.NORMAL, 20)); 
@@ -123,22 +118,14 @@ public class CheckoutWindow extends Stage implements LibWindow {
 			        copyNumberCol.setCellValueFactory(new PropertyValueFactory<>("copyNumber"));
 			        
 			        table.setItems(data);
-			        table.setPrefWidth(800);
+			        table.setPrefWidth(550);
+			        table.setPrefHeight(300);
 			        table.getColumns().addAll(ISBNCol,bookNameCol, checkoutDateCol, dueDateCol,memberIDCol,copyNumberCol);
 			               
-			        grid.add(table, 0, 1);
-			        // hide the butten,label and textField
-			        labelISBN.setVisible(false);
-			        labelMemberID.setVisible(false);
-			        textFieldISBN.setVisible(false);
-			        textFieldMemberID.setVisible(false);
-			        btnCheckout.setVisible(false);
-					// show a success Alert
-					//Alert alert = new Alert(Alert.AlertType.INFORMATION);
-					//alert.setTitle("Success");
-					//alert.setHeaderText(null);
-					//alert.setContentText("Success Checkout");
-					//alert.showAndWait();
+			        dialog.getDialogPane().setContent(table);
+			        dialog.setHeaderText(null);
+			        dialog.setContentText(null);
+			        dialog.showAndWait();
 				} catch (LibrarySystemException e) {
 					// TODO Auto-generated catch block
 					//e.printStackTrace();

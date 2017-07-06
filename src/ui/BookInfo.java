@@ -9,10 +9,11 @@ public class BookInfo {
 	private SimpleStringProperty Title = new SimpleStringProperty();
 	private SimpleStringProperty CopyNumber = new SimpleStringProperty();
 	private SimpleStringProperty member = new SimpleStringProperty();
-	private SimpleStringProperty returnDay = new SimpleStringProperty();
+	private SimpleStringProperty returnDay = new SimpleStringProperty();//isAvailable
+	private SimpleStringProperty isAvailable = new SimpleStringProperty();
 	
 	BookInfo(String isbn, String authorName,String CopiesNum, String Title,
-			String CopyNumber, String member,String returnDay){
+			String CopyNumber, String member,String returnDay,String isAvailable){
 		this.ISBN = new SimpleStringProperty(isbn);
 		this.authorName = new SimpleStringProperty(authorName);
 		this.CopiesNum = new SimpleStringProperty(CopiesNum);
@@ -20,6 +21,7 @@ public class BookInfo {
 		this.CopyNumber = new SimpleStringProperty(CopyNumber);
 		this.member = new SimpleStringProperty(member);
 		this.returnDay = new SimpleStringProperty(returnDay);
+		this.isAvailable  = new SimpleStringProperty(isAvailable);
 	}
 	
 	
@@ -45,6 +47,9 @@ public class BookInfo {
 		return returnDay.get();
 	}
 	
+	public String getIsAvailable() {
+		return isAvailable.get();
+	}
 	
 	//
 	public void setISBN(String iSBN) {
@@ -66,8 +71,10 @@ public class BookInfo {
 		this.member.set(member);
 	}
 	public void setReturnDay(String returnDay) {
-		
 		this.returnDay.set(returnDay);
+	}
+	public void setIsAvailable(String isAvailable) {
+		this.isAvailable.set(isAvailable);
 	}
 	
 }
