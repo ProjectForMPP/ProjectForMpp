@@ -38,12 +38,13 @@ public class BothWindow extends Stage implements LibWindow {
         grid.setVgap(10);
         grid.setPadding(new Insets(25, 25, 25, 25));
 
-        Text scenetitle = new Text("Welcome User(Both Librarian and Admin):");
+        Text scenetitle = new Text("Welcome Super Adminstor");
         scenetitle.setFont(Font.font("Georgia", FontWeight.NORMAL, 20)); 
         grid.add(scenetitle, 0, 0, 2, 1);
 		
         // Add Member Button
         Button btnAddMember = new Button();
+        btnAddMember.setPrefWidth(108);
         btnAddMember.setText("Add Member");
         HBox hbxBtn = new HBox(10);
         hbxBtn.setAlignment(Pos.BOTTOM_LEFT);
@@ -73,6 +74,7 @@ public class BothWindow extends Stage implements LibWindow {
         
         // All Member IDs button
         Button btnAllMembersID = new Button();
+        btnAllMembersID.setPrefWidth(108);
         btnAllMembersID.setText("All Members");
         HBox hbxBtn3 = new HBox(10);
         hbxBtn3.setAlignment(Pos.BOTTOM_LEFT);
@@ -94,6 +96,7 @@ public class BothWindow extends Stage implements LibWindow {
         
         // Add book Button
         Button btnAddBook = new Button();
+        btnAddBook.setPrefWidth(108);
         btnAddBook.setText("Add Book");
         HBox hbxBtn4 = new HBox(10);
         hbxBtn4.setAlignment(Pos.BOTTOM_LEFT);
@@ -116,6 +119,7 @@ public class BothWindow extends Stage implements LibWindow {
         
         // All Book IDs Button
         Button btnAllBooks = new Button();
+        btnAllBooks.setPrefWidth(108);
         btnAllBooks.setText("All Books");
         grid.add(btnAllBooks, 2, 1);
         
@@ -134,6 +138,7 @@ public class BothWindow extends Stage implements LibWindow {
         
         //Add Book Copy
         Button bookCopyBtn = new Button();
+        bookCopyBtn.setPrefWidth(108);
         bookCopyBtn.setText("Add Book Copy");
         grid.add(bookCopyBtn, 2, 2);
         bookCopyBtn.setOnAction(new EventHandler<ActionEvent>() {
@@ -151,6 +156,7 @@ public class BothWindow extends Stage implements LibWindow {
         
         // Checkout Button
         Button btnCheckout = new Button();
+        btnCheckout.setPrefWidth(108);
         btnCheckout.setText("Checkout");
         HBox hbxBtn6 = new HBox(10);
         hbxBtn6.setAlignment(Pos.BOTTOM_LEFT);

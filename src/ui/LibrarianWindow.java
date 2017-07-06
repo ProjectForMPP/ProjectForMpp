@@ -45,16 +45,17 @@ public class LibrarianWindow extends Stage implements LibWindow {
         grid.setPadding(new Insets(25, 25, 25, 25));
 
         Text scenetitle = new Text("Welcome Librarian:");
-        scenetitle.setFont(Font.font("Harlow Solid Italic", FontWeight.NORMAL, 20)); 
-        grid.add(scenetitle, 0, 0, 2, 1);
+        scenetitle.setFont(Font.font("Georgia", FontWeight.NORMAL, 20)); 
+        grid.add(scenetitle, 0, 0, 1, 1);
         
         // Checkout Button
         Button btnCheckout = new Button();
+        btnCheckout.setPrefWidth(108);
         btnCheckout.setText("Checkout");
-        HBox hbxBtn = new HBox(10);
+        HBox hbxBtn = new HBox();
         hbxBtn.setAlignment(Pos.BOTTOM_LEFT);
         hbxBtn.getChildren().add(btnCheckout);
-        grid.add(hbxBtn, 1, 1);
+        grid.add(hbxBtn, 0, 1);
         
         btnCheckout.setOnAction(new EventHandler<ActionEvent>(){	// add a button listener
 			@Override
@@ -68,34 +69,7 @@ public class LibrarianWindow extends Stage implements LibWindow {
 				CheckoutWindow.INSTANCE.show();
 			}
         });
-//        
-//        // All Book IDs Button
-//        Button btnAllBooks = new Button();
-//        btnAllBooks.setText("All Books");
-//        HBox hbxBtn2 = new HBox(10);
-//        hbxBtn2.setAlignment(Pos.BOTTOM_LEFT);
-//        hbxBtn2.getChildren().add(btnAllBooks);
-//        grid.add(hbxBtn2, 1, 2);
-//        
-//        btnAllBooks.setOnAction(new EventHandler(){	// add a button listener
-//			@Override
-//			public void handle(Event event) {
-//				// TODO Auto-generated method stub
-//				//Start.hideAllWindows();
-//				if(!AllBooksWindow.INSTANCE.isInitialized()) {
-//					AllBooksWindow.INSTANCE.init();
-//				}
-//				ControllerInterface ci = new SystemController();
-//				List<String> ids = ci.allBookIds();
-//				Collections.sort(ids);
-//				StringBuilder sb = new StringBuilder();
-//				for(String s: ids) {
-//					sb.append(s + "\n");
-//				}
-//				AllBooksWindow.INSTANCE.setData(sb.toString());
-//				AllBooksWindow.INSTANCE.show();
-//			}
-//        });
+
         
         // Search Member Button
         Button btnSearchMember = new Button();
@@ -103,7 +77,7 @@ public class LibrarianWindow extends Stage implements LibWindow {
         HBox hbxBtn3 = new HBox(10);
         hbxBtn3.setAlignment(Pos.BOTTOM_LEFT);
         hbxBtn3.getChildren().add(btnSearchMember);
-        grid.add(hbxBtn3, 1, 2);
+        grid.add(hbxBtn3, 0, 3);
         
         btnSearchMember.setOnAction(new EventHandler<ActionEvent>(){	// add a button listener
 			@Override
@@ -134,9 +108,9 @@ public class LibrarianWindow extends Stage implements LibWindow {
         HBox hbxBtn4 = new HBox(10);
         hbxBtn4.setAlignment(Pos.BOTTOM_LEFT);
         hbxBtn4.getChildren().add(btnLogout);
-        grid.add(hbxBtn4, 1, 3);
+        grid.add(hbxBtn4, 1, 2);
 		
-		Scene scene = new Scene(grid);
+		Scene scene = new Scene(grid,400,200);
 		scene.getStylesheets().add(getClass().getResource("library.css").toExternalForm());
         setScene(scene);
 	}

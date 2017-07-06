@@ -51,11 +51,12 @@ public class AdminWindow extends Stage implements LibWindow {
         
         // Add Member Button
         Button btnAddMember = new Button();
+        btnAddMember.setPrefWidth(108);
         btnAddMember.setText("Add Member");
         HBox hbxBtn = new HBox(10);
         hbxBtn.setAlignment(Pos.BOTTOM_LEFT);
         hbxBtn.getChildren().add(btnAddMember);
-        grid.add(hbxBtn, 1, 1);
+        grid.add(hbxBtn, 0, 1);
         
         btnAddMember.setOnAction(new EventHandler<ActionEvent>(){	// add a button listener
 			@Override
@@ -81,11 +82,12 @@ public class AdminWindow extends Stage implements LibWindow {
         
         // All Members ID Button
         Button btnAllMembersID = new Button();
+        btnAllMembersID.setPrefWidth(108);
         btnAllMembersID.setText("All Members");
         HBox hbxBtn3 = new HBox(10);
         hbxBtn3.setAlignment(Pos.BOTTOM_LEFT);
         hbxBtn3.getChildren().add(btnAllMembersID);
-        grid.add(hbxBtn3, 1, 2);
+        grid.add(hbxBtn3, 0, 2);
         
         btnAllMembersID.setOnAction(new EventHandler<ActionEvent>(){	// add a button listener
 			@Override
@@ -102,9 +104,10 @@ public class AdminWindow extends Stage implements LibWindow {
         
         //All Books
         Button bookBtn = new Button();
+        bookBtn.setPrefWidth(108);
         bookBtn.setText("All Books");
         
-        grid.add(bookBtn, 1, 3);
+        grid.add(bookBtn, 0, 3);
         bookBtn.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent e) {
@@ -119,11 +122,12 @@ public class AdminWindow extends Stage implements LibWindow {
         
         // Add book Button
         Button btnAddBook = new Button();
+        btnAddBook.setPrefWidth(108);
         btnAddBook.setText("Add Book");
         HBox hbxBtn4 = new HBox(10);
         hbxBtn4.setAlignment(Pos.BOTTOM_LEFT);
         hbxBtn4.getChildren().add(btnAddBook);
-        grid.add(hbxBtn4, 2, 1);
+        grid.add(hbxBtn4, 4, 1);
         
         btnAddBook.setOnAction(new EventHandler<ActionEvent>(){	// add a button listener
 			@Override
@@ -142,8 +146,9 @@ public class AdminWindow extends Stage implements LibWindow {
         
         //Add Book Copy
         Button bookCopyBtn = new Button();
+        bookCopyBtn.setPrefWidth(108);
         bookCopyBtn.setText("Add Book Copy");
-        grid.add(bookCopyBtn, 2, 2);
+        grid.add(bookCopyBtn, 4, 2);
         bookCopyBtn.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent e) {
@@ -159,7 +164,9 @@ public class AdminWindow extends Stage implements LibWindow {
 		
         // Logout Button
         Button btnLogout = new Button();
+        btnLogout.setPrefWidth(66);
         btnLogout.setText("Logout");
+        btnLogout.setAlignment(Pos.CENTER_RIGHT);
         btnLogout.setOnAction(new EventHandler<ActionEvent>(){
 			@Override
 			public void handle(ActionEvent event) {
@@ -173,7 +180,7 @@ public class AdminWindow extends Stage implements LibWindow {
         HBox hbxBtn5 = new HBox(10);
         hbxBtn5.setAlignment(Pos.BOTTOM_LEFT);
         hbxBtn5.getChildren().add(btnLogout);
-        grid.add(hbxBtn5, 2, 3);
+        grid.add(hbxBtn5, 4, 3);
 		
 		Scene scene = new Scene(grid,400,200);
 		scene.getStylesheets().add(getClass().getResource("library.css").toExternalForm());

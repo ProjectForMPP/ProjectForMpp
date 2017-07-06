@@ -110,7 +110,7 @@ public class SearchMemberWindow extends Stage implements LibWindow {
 			}
         });
 		
-		Scene scene = new Scene(grid,600,500);
+		Scene scene = new Scene(grid,400,200);
 		scene.getStylesheets().add(getClass().getResource("library.css").toExternalForm());
         setScene(scene);
 	}
