@@ -5,6 +5,7 @@ import java.util.List;
 
 import business.ControllerInterface;
 import business.SystemController;
+import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -55,33 +56,46 @@ public class LibrarianWindow extends Stage implements LibWindow {
         hbxBtn.getChildren().add(btnCheckout);
         grid.add(hbxBtn, 1, 1);
         
-        // All Book IDs Button
-        Button btnAllBooks = new Button();
-        btnAllBooks.setText("All Books IDs");
-        HBox hbxBtn2 = new HBox(10);
-        hbxBtn2.setAlignment(Pos.BOTTOM_LEFT);
-        hbxBtn2.getChildren().add(btnAllBooks);
-        grid.add(hbxBtn2, 1, 2);
-        
-        btnAllBooks.setOnAction(new EventHandler(){	// add a button listener
+        btnCheckout.setOnAction(new EventHandler<ActionEvent>(){	// add a button listener
 			@Override
-			public void handle(Event event) {
+			public void handle(ActionEvent event) {
 				// TODO Auto-generated method stub
 				//Start.hideAllWindows();
-				if(!AllBooksWindow.INSTANCE.isInitialized()) {
-					AllBooksWindow.INSTANCE.init();
+				if(!CheckoutWindow.INSTANCE.isInitialized()) {
+					CheckoutWindow.INSTANCE.init();
 				}
-				ControllerInterface ci = new SystemController();
-				List<String> ids = ci.allBookIds();
-				Collections.sort(ids);
-				StringBuilder sb = new StringBuilder();
-				for(String s: ids) {
-					sb.append(s + "\n");
-				}
-				AllBooksWindow.INSTANCE.setData(sb.toString());
-				AllBooksWindow.INSTANCE.show();
+				
+				CheckoutWindow.INSTANCE.show();
 			}
         });
+//        
+//        // All Book IDs Button
+//        Button btnAllBooks = new Button();
+//        btnAllBooks.setText("All Books");
+//        HBox hbxBtn2 = new HBox(10);
+//        hbxBtn2.setAlignment(Pos.BOTTOM_LEFT);
+//        hbxBtn2.getChildren().add(btnAllBooks);
+//        grid.add(hbxBtn2, 1, 2);
+//        
+//        btnAllBooks.setOnAction(new EventHandler(){	// add a button listener
+//			@Override
+//			public void handle(Event event) {
+//				// TODO Auto-generated method stub
+//				//Start.hideAllWindows();
+//				if(!AllBooksWindow.INSTANCE.isInitialized()) {
+//					AllBooksWindow.INSTANCE.init();
+//				}
+//				ControllerInterface ci = new SystemController();
+//				List<String> ids = ci.allBookIds();
+//				Collections.sort(ids);
+//				StringBuilder sb = new StringBuilder();
+//				for(String s: ids) {
+//					sb.append(s + "\n");
+//				}
+//				AllBooksWindow.INSTANCE.setData(sb.toString());
+//				AllBooksWindow.INSTANCE.show();
+//			}
+//        });
         
         // Search Member Button
         Button btnSearchMember = new Button();
@@ -89,11 +103,11 @@ public class LibrarianWindow extends Stage implements LibWindow {
         HBox hbxBtn3 = new HBox(10);
         hbxBtn3.setAlignment(Pos.BOTTOM_LEFT);
         hbxBtn3.getChildren().add(btnSearchMember);
-        grid.add(hbxBtn3, 1, 3);
+        grid.add(hbxBtn3, 1, 2);
         
-        btnSearchMember.setOnAction(new EventHandler(){	// add a button listener
+        btnSearchMember.setOnAction(new EventHandler<ActionEvent>(){	// add a button listener
 			@Override
-			public void handle(Event event) {
+			public void handle(ActionEvent event) {
 				// TODO Auto-generated method stub
 				Start.hideAllWindows();
 				if(!SearchMemberWindow.INSTANCE.isInitialized()) {
@@ -107,9 +121,9 @@ public class LibrarianWindow extends Stage implements LibWindow {
         // Logout Button
         Button btnLogout = new Button();
         btnLogout.setText("Logout");
-        btnLogout.setOnAction(new EventHandler(){
+        btnLogout.setOnAction(new EventHandler<ActionEvent>(){
 			@Override
-			public void handle(Event event) {
+			public void handle(ActionEvent event) {
 				// TODO Auto-generated method stub
 				LibrarianWindow.INSTANCE.hide();
 				Start.hideAllWindows();
@@ -120,7 +134,7 @@ public class LibrarianWindow extends Stage implements LibWindow {
         HBox hbxBtn4 = new HBox(10);
         hbxBtn4.setAlignment(Pos.BOTTOM_LEFT);
         hbxBtn4.getChildren().add(btnLogout);
-        grid.add(hbxBtn4, 1, 4);
+        grid.add(hbxBtn4, 1, 3);
 		
 		Scene scene = new Scene(grid);
 		scene.getStylesheets().add(getClass().getResource("library.css").toExternalForm());

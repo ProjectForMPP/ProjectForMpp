@@ -18,7 +18,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.control.TextArea;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
@@ -31,6 +30,11 @@ public class AllBooksWindow extends Stage implements LibWindow {
 	public static final AllBooksWindow INSTANCE = new AllBooksWindow();
 	private  TableView<BookInfo> table;
 	
+	private static String fromTo = "";
+	public void setData(String data) {
+		fromTo = data;
+	}
+	
 	private boolean isInitialized = false;
 	public boolean isInitialized() {
 		return isInitialized;
@@ -38,10 +42,7 @@ public class AllBooksWindow extends Stage implements LibWindow {
 	public void isInitialized(boolean val) {
 		isInitialized = val;
 	}
-	private TextArea ta;
-	public void setData(String data) {
-		ta.setText(data);
-	}
+	
 	private AllBooksWindow() {}
 	
 	public void init() {
@@ -54,7 +55,7 @@ public class AllBooksWindow extends Stage implements LibWindow {
         grid.setVgap(10);
         grid.setPadding(new Insets(25, 25, 25, 25));
 
-        Text scenetitle = new Text("All Book IDs");
+        Text scenetitle = new Text("All Book");
         scenetitle.setFont(Font.font("Georgia", FontWeight.NORMAL, 20)); //Tahoma
         grid.add(scenetitle, 0, 0, 2, 1);
 		//----------------
@@ -111,16 +112,27 @@ public class AllBooksWindow extends Stage implements LibWindow {
         grid.add(table, 0, 1);
         
         //-----------------
-		ta = new TextArea();
-//		grid.add(ta, 0,1);
-		ta.setPrefColumnCount(50);
-		ta.setPrefRowCount(50);
 		Button backBtn = new Button("Back to Main");
         backBtn.setOnAction(new EventHandler<ActionEvent>() {
         	@Override
         	public void handle(ActionEvent e) {
-        		Start.hideAllWindows();
-        		Start.primStage().show();
+        		if(fromTo.isEmpty() || fromTo.equals("")){
+        			Start.hideAllWindows();
+            		Start.primStage().show();
+        		}else{
+        			if(fromTo.toUpperCase().equals("ADMIN")){
+        				if(!AdminWindow.INSTANCE.isInitialized()) {
+        					AdminWindow.INSTANCE.init();
+        				}
+        				AdminWindow.INSTANCE.show();
+        			}else if(fromTo.toUpperCase().equals("BOTH")){
+        				if(!BothWindow.INSTANCE.isInitialized()) {
+        					BothWindow.INSTANCE.init();
+        				}
+        				BothWindow.INSTANCE.show();
+        			}
+        		}
+        		AllBooksWindow.INSTANCE.hide();
         	}
         });
         HBox hBack = new HBox(10);
