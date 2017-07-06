@@ -222,11 +222,11 @@ public class AddNewBookWindow extends Stage implements LibWindow {
 			}
 		});
 
-		Button backBtn = new Button("Back Main");
+		Button backBtn = new Button("Back");
 		backBtn.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent e) {
-				if(fromTo.isEmpty()){
+				if(fromTo.isEmpty() || fromTo.equals("")){
         			Start.hideAllWindows();
             		Start.primStage().show();
         		}else{

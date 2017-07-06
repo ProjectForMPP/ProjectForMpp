@@ -12,6 +12,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
@@ -45,7 +46,7 @@ public class AdminWindow extends Stage implements LibWindow {
         grid.setPadding(new Insets(25, 25, 25, 25));
 
         Text scenetitle = new Text("Welcome Admin:");
-        scenetitle.setFont(Font.font("Harlow Solid Italic", FontWeight.NORMAL, 20)); 
+        scenetitle.setFont(Font.font("Georgia", FontWeight.NORMAL, 20)); 
         grid.add(scenetitle, 0, 0, 2, 1);
         
         // Add Member Button
@@ -122,7 +123,7 @@ public class AdminWindow extends Stage implements LibWindow {
         HBox hbxBtn4 = new HBox(10);
         hbxBtn4.setAlignment(Pos.BOTTOM_LEFT);
         hbxBtn4.getChildren().add(btnAddBook);
-        grid.add(hbxBtn4, 1, 4);
+        grid.add(hbxBtn4, 2, 1);
         
         btnAddBook.setOnAction(new EventHandler<ActionEvent>(){	// add a button listener
 			@Override
@@ -138,6 +139,24 @@ public class AdminWindow extends Stage implements LibWindow {
 			}
         });
         
+        
+        //Add Book Copy
+        Button bookCopyBtn = new Button();
+        bookCopyBtn.setText("Add Book Copy");
+        grid.add(bookCopyBtn, 2, 2);
+        bookCopyBtn.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent e) {
+				if(!AddBookCopyWindow.INSTANCE.isInitialized()) {
+					AddBookCopyWindow.INSTANCE.init();
+				}
+				
+				AddBookCopyWindow.INSTANCE.setData("ADMIN");
+				AdminWindow.INSTANCE.hide();
+				AddBookCopyWindow.INSTANCE.show();
+            }
+		});
+		
         // Logout Button
         Button btnLogout = new Button();
         btnLogout.setText("Logout");
@@ -154,9 +173,9 @@ public class AdminWindow extends Stage implements LibWindow {
         HBox hbxBtn5 = new HBox(10);
         hbxBtn5.setAlignment(Pos.BOTTOM_LEFT);
         hbxBtn5.getChildren().add(btnLogout);
-        grid.add(hbxBtn5, 1, 5);
+        grid.add(hbxBtn5, 2, 3);
 		
-		Scene scene = new Scene(grid);
+		Scene scene = new Scene(grid,400,200);
 		scene.getStylesheets().add(getClass().getResource("library.css").toExternalForm());
         setScene(scene);
 	}

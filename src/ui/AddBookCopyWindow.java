@@ -55,6 +55,11 @@ public class AddBookCopyWindow extends Stage implements LibWindow {
 		isInitialized = val;
 	}
 	
+	private  String fromTo = "";
+	public void setData(String data) {
+		fromTo = data;
+	}
+	
 	@Override
 	public void init() {
 		
@@ -145,19 +150,35 @@ public class AddBookCopyWindow extends Stage implements LibWindow {
 			}
 		});
 
-		Button backBtn = new Button("Back Main");
+		Button backBtn = new Button("Back");
 		backBtn.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent e) {
-				AddNewBookWindow.INSTANCE.hide();
-				Start.primStage().show();
+				if(fromTo.isEmpty() || fromTo.equals("")){
+        			Start.hideAllWindows();
+            		Start.primStage().show();
+        		}else{
+        			if(fromTo.toUpperCase().equals("ADMIN")){
+        				if(!AdminWindow.INSTANCE.isInitialized()) {
+        					AdminWindow.INSTANCE.init();
+        				}
+        				AdminWindow.INSTANCE.show();
+        			}else if(fromTo.toUpperCase().equals("BOTH")){
+        				if(!BothWindow.INSTANCE.isInitialized()) {
+        					BothWindow.INSTANCE.init();
+        				}
+        				BothWindow.INSTANCE.show();
+        			}
+        		}
+        		
+        		AddBookCopyWindow.INSTANCE.hide();
 			}
 		});
 		HBox hBack = new HBox(10);
 		hBack.setAlignment(Pos.BOTTOM_LEFT);
 		hBack.getChildren().add(backBtn);
 		grid.add(hBack, 1, 5);
-		Scene scene = new Scene(grid);
+		Scene scene = new Scene(grid,400,200);
 		scene.getStylesheets().add(getClass().getResource("library.css").toExternalForm());
 		setScene(scene);
 	}

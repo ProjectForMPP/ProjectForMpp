@@ -1,12 +1,6 @@
 package ui;
 
-import java.util.Collections;
-import java.util.List;
-
-import business.ControllerInterface;
-import business.SystemController;
 import javafx.event.ActionEvent;
-import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -45,7 +39,7 @@ public class BothWindow extends Stage implements LibWindow {
         grid.setPadding(new Insets(25, 25, 25, 25));
 
         Text scenetitle = new Text("Welcome User(Both Librarian and Admin):");
-        scenetitle.setFont(Font.font("Harlow Solid Italic", FontWeight.NORMAL, 20)); 
+        scenetitle.setFont(Font.font("Georgia", FontWeight.NORMAL, 20)); 
         grid.add(scenetitle, 0, 0, 2, 1);
 		
         // Add Member Button
@@ -123,10 +117,7 @@ public class BothWindow extends Stage implements LibWindow {
         // All Book IDs Button
         Button btnAllBooks = new Button();
         btnAllBooks.setText("All Books");
-        HBox hbxBtn5 = new HBox(10);
-        hbxBtn5.setAlignment(Pos.BOTTOM_LEFT);
-        hbxBtn5.getChildren().add(btnAllBooks);
-        grid.add(hbxBtn5, 1, 4);
+        grid.add(btnAllBooks, 2, 1);
         
         btnAllBooks.setOnAction(new EventHandler<ActionEvent>(){	// add a button listener
 			@Override
@@ -141,13 +132,30 @@ public class BothWindow extends Stage implements LibWindow {
 			}
         });
         
+        //Add Book Copy
+        Button bookCopyBtn = new Button();
+        bookCopyBtn.setText("Add Book Copy");
+        grid.add(bookCopyBtn, 2, 2);
+        bookCopyBtn.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent e) {
+				if(!AddBookCopyWindow.INSTANCE.isInitialized()) {
+					AddBookCopyWindow.INSTANCE.init();
+				}
+				
+				AddBookCopyWindow.INSTANCE.setData("BOTH");
+				BothWindow.INSTANCE.hide();
+				AddBookCopyWindow.INSTANCE.show();
+            }
+		});
+        
         // Checkout Button
         Button btnCheckout = new Button();
         btnCheckout.setText("Checkout");
         HBox hbxBtn6 = new HBox(10);
         hbxBtn6.setAlignment(Pos.BOTTOM_LEFT);
         hbxBtn6.getChildren().add(btnCheckout);
-        grid.add(hbxBtn6, 1, 5);
+        grid.add(hbxBtn6, 2, 3);
         
         btnCheckout.setOnAction(new EventHandler<ActionEvent>(){	// add a button listener
 			@Override
@@ -178,9 +186,9 @@ public class BothWindow extends Stage implements LibWindow {
         HBox hbxBtn7 = new HBox(10);
         hbxBtn7.setAlignment(Pos.BOTTOM_LEFT);
         hbxBtn7.getChildren().add(btnLogout);
-        grid.add(hbxBtn7, 1, 6);
+        grid.add(hbxBtn7, 2, 4);
         
-		Scene scene = new Scene(grid);
+		Scene scene = new Scene(grid,400,200);
 		scene.getStylesheets().add(getClass().getResource("library.css").toExternalForm());
         setScene(scene);
 	}
