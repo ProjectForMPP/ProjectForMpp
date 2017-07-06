@@ -91,16 +91,7 @@ public class AdminWindow extends Stage implements LibWindow {
 				if(!AllMembersWindow.INSTANCE.isInitialized()) {
 					AllMembersWindow.INSTANCE.init();
 				}
-				ControllerInterface ci = new SystemController();
-				List<String> ids = ci.allMemberIds();
-				Collections.sort(ids);
-				System.out.println(ids);
-				StringBuilder sb = new StringBuilder();
-				for(String s: ids) {
-					sb.append(s + "\n");
-				}
-				System.out.println(sb.toString());
-				AllMembersWindow.INSTANCE.setData(sb.toString());
+				
 				AllMembersWindow.INSTANCE.show();
 			}
         });
@@ -120,16 +111,7 @@ public class AdminWindow extends Stage implements LibWindow {
 				if(!AddNewBookWindow.INSTANCE.isInitialized()) {
 					AddNewBookWindow.INSTANCE.init();
 				}
-				ControllerInterface ci = new SystemController();
-				List<String> ids = ci.allMemberIds();
-				Collections.sort(ids);
-				System.out.println(ids);
-				StringBuilder sb = new StringBuilder();
-				for(String s: ids) {
-					sb.append(s + "\n");
-				}
-				//System.out.println(sb.toString());
-				//AddNewMemberWindow.INSTANCE.setData(sb.toString());
+			
 				AddNewBookWindow.INSTANCE.show();
 			}
         });

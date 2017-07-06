@@ -54,7 +54,7 @@ public class AllBooksWindow extends Stage implements LibWindow {
         grid.setVgap(10);
         grid.setPadding(new Insets(25, 25, 25, 25));
 
-        Text scenetitle = new Text("All Book IDs");
+        Text scenetitle = new Text("All Book");
         scenetitle.setFont(Font.font("Georgia", FontWeight.NORMAL, 20)); //Tahoma
         grid.add(scenetitle, 0, 0, 2, 1);
 		//----------------
@@ -111,10 +111,6 @@ public class AllBooksWindow extends Stage implements LibWindow {
         grid.add(table, 0, 1);
         
         //-----------------
-		ta = new TextArea();
-//		grid.add(ta, 0,1);
-		ta.setPrefColumnCount(50);
-		ta.setPrefRowCount(50);
 		Button backBtn = new Button("Back to Main");
         backBtn.setOnAction(new EventHandler<ActionEvent>() {
         	@Override

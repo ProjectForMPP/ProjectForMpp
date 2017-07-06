@@ -29,8 +29,8 @@ public class BookInfo {
 	public String getAuthorName() {
 		return authorName.get();
 	}
-	public SimpleStringProperty getCopiesNum() {
-		return CopiesNum;
+	public String getCopiesNum() {
+		return CopiesNum.get();
 	}
 	public String getTitle() {
 		return Title.get();

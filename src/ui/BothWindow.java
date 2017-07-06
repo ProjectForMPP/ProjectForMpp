@@ -5,7 +5,7 @@ import java.util.List;
 
 import business.ControllerInterface;
 import business.SystemController;
-import javafx.event.Event;
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -55,9 +55,9 @@ public class BothWindow extends Stage implements LibWindow {
         hbxBtn.getChildren().add(btnAddMember);
         grid.add(hbxBtn, 1, 1);
         
-        btnAddMember.setOnAction(new EventHandler(){	// add a button listener
+        btnAddMember.setOnAction(new EventHandler<ActionEvent>(){	// add a button listener
 			@Override
-			public void handle(Event event) {
+			public void handle(ActionEvent event) {
 				// TODO Auto-generated method stub
 				//Start.hideAllWindows();
 				if(!AddNewMemberWindow.INSTANCE.isInitialized()) {
@@ -84,23 +84,14 @@ public class BothWindow extends Stage implements LibWindow {
         hbxBtn3.getChildren().add(btnAllMembersID);
         grid.add(hbxBtn3, 1, 2);
         
-        btnAllMembersID.setOnAction(new EventHandler(){	// add a button listener
+        btnAllMembersID.setOnAction(new EventHandler<ActionEvent>(){	// add a button listener
 			@Override
-			public void handle(Event event) {
+			public void handle(ActionEvent event) {
 				// TODO Auto-generated method stub
 				if(!AllMembersWindow.INSTANCE.isInitialized()) {
 					AllMembersWindow.INSTANCE.init();
 				}
-				ControllerInterface ci = new SystemController();
-				List<String> ids = ci.allMemberIds();
-				Collections.sort(ids);
-				System.out.println(ids);
-				StringBuilder sb = new StringBuilder();
-				for(String s: ids) {
-					sb.append(s + "\n");
-				}
-				System.out.println(sb.toString());
-				AllMembersWindow.INSTANCE.setData(sb.toString());
+				
 				AllMembersWindow.INSTANCE.show();
 			}
         });
@@ -113,23 +104,14 @@ public class BothWindow extends Stage implements LibWindow {
         hbxBtn4.getChildren().add(btnAddBook);
         grid.add(hbxBtn4, 1, 3);
         
-        btnAddBook.setOnAction(new EventHandler(){	// add a button listener
+        btnAddBook.setOnAction(new EventHandler<ActionEvent>(){	// add a button listener
 			@Override
-			public void handle(Event event) {
+			public void handle(ActionEvent event) {
 				// TODO Auto-generated method stub
 				if(!AddNewBookWindow.INSTANCE.isInitialized()) {
 					AddNewBookWindow.INSTANCE.init();
 				}
-				ControllerInterface ci = new SystemController();
-				List<String> ids = ci.allMemberIds();
-				Collections.sort(ids);
-				System.out.println(ids);
-				StringBuilder sb = new StringBuilder();
-				for(String s: ids) {
-					sb.append(s + "\n");
-				}
-				//System.out.println(sb.toString());
-				//AddNewMemberWindow.INSTANCE.setData(sb.toString());
+				
 				AddNewBookWindow.INSTANCE.show();
 			}
         });
@@ -142,9 +124,9 @@ public class BothWindow extends Stage implements LibWindow {
         hbxBtn5.getChildren().add(btnAllBooks);
         grid.add(hbxBtn5, 1, 4);
         
-        btnAllBooks.setOnAction(new EventHandler(){	// add a button listener
+        btnAllBooks.setOnAction(new EventHandler<ActionEvent>(){	// add a button listener
 			@Override
-			public void handle(Event event) {
+			public void handle(ActionEvent event) {
 				// TODO Auto-generated method stub
 				//Start.hideAllWindows();
 				if(!AllBooksWindow.INSTANCE.isInitialized()) {
@@ -173,9 +155,9 @@ public class BothWindow extends Stage implements LibWindow {
         // Logout Button
         Button btnLogout = new Button();
         btnLogout.setText("Logout");
-        btnLogout.setOnAction(new EventHandler(){
+        btnLogout.setOnAction(new EventHandler<ActionEvent>(){
 			@Override
-			public void handle(Event event) {
+			public void handle(ActionEvent event) {
 				// TODO Auto-generated method stub
 				BothWindow.INSTANCE.hide();
 				Start.hideAllWindows();

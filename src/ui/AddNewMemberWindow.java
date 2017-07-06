@@ -172,32 +172,34 @@ public class AddNewMemberWindow extends Stage implements LibWindow {
         			}else if(zip == null || zip.isEmpty()){
         				exceptionMessage += zip;
         				throwException = true;
-        			}else{}
-        			
-        			if(!id.matches("[0-9]+")){
-        				exceptionMessage = "ID must be number";
-        				throwException = true;
+        			}else{
+        				if(!id.matches("[0-9]+")){
+            				exceptionMessage = "ID must be number";
+            				throwException = true;
+            			}
+            			
+            			if(!zip.matches("[0-9]+")){
+            				exceptionMessage = "Zip must be number";
+            				throwException = true;
+            			}
+            			
+            			if(!phoneNumber.matches("[0-9]+")){
+            				exceptionMessage = "telphone number must be number";
+            				throwException = true;
+            			}
+            			
+            			if(zip.length() != 5){
+            				exceptionMessage = "Zip must be 5 digital";
+            				throwException = true;
+            			}
+            			
+            			if(phoneNumber.length() != 10){
+            				exceptionMessage = "phoneNumber must be 10 digital";
+            				throwException = true;
+            			}
         			}
         			
-        			if(!zip.matches("[0-9]+")){
-        				exceptionMessage = "Zip must be number";
-        				throwException = true;
-        			}
         			
-        			if(!phoneNumber.matches("[0-9]+")){
-        				exceptionMessage = "telphone number must be number";
-        				throwException = true;
-        			}
-        			
-        			if(zip.length() != 5){
-        				exceptionMessage = "Zip must be 5 digital";
-        				throwException = true;
-        			}
-        			
-        			if(phoneNumber.length() != 10){
-        				exceptionMessage = "phoneNumber must be 10 digital";
-        				throwException = true;
-        			}
         			
         			if(throwException){
         				throw new LibrarySystemException(exceptionMessage);
