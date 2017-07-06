@@ -1,18 +1,32 @@
 package business;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 
 // CheckoutSet: a structure of checkout record,saved in file system, and also used by checkout method
 // Author:Ma
 
-public class CheckoutSet {
+public class CheckoutSet implements Serializable{
+	
+	private static final long serialVersionUID = 6110690276685962829L;
+	
 	private String ISBN;
 	private String bookName;
 	private LocalDate checkoutDate;
 	private LocalDate dueDate;
 	private String memberID;	// the member who gets the book
 	int copyNumber;				// the copy number of the book copy
+	// constructor
+	public CheckoutSet(){}
 	
+	public CheckoutSet(String ISBN,String bookName,LocalDate checkoutDate,LocalDate dueDate,String memberID,int copyNumber){
+		this.ISBN = ISBN;
+		this.bookName = bookName;
+		this.checkoutDate = checkoutDate;
+		this.dueDate = dueDate;
+		this.memberID = memberID;
+		this.copyNumber = copyNumber;
+	}
 	public void setISBN(String ISBN){
 		this.ISBN = ISBN;
 	}

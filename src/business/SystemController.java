@@ -1,6 +1,7 @@
 
 package business;
 
+import java.io.Serializable;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -18,7 +19,7 @@ import dataaccess.DataAccess;
 import dataaccess.DataAccessFacade;
 import dataaccess.User;
 
-public class SystemController implements ControllerInterface {
+public class SystemController implements ControllerInterface{
 
 	public static Auth currentAuth = null;
 	
@@ -58,9 +59,15 @@ public class SystemController implements ControllerInterface {
 		checkoutSet.setCheckoutDate(DateToLocalDate(nowDate));
 		checkoutSet.setDueDate(DateToLocalDate(dueDate));
 		// save the new checkout record to file system
-		HashMap<Integer, CheckoutSet> map = da.readCheckoutRecordsMap();
+
+		HashMap<String, CheckoutSet> checkoutSetMap = da.readCheckoutRecordsMap();
+		
+		if(checkoutSetMap == null){
+			checkoutSetMap = new HashMap<String, CheckoutSet>();
+		}
+		
 		List<CheckoutSet> checkoutSetList = new ArrayList<CheckoutSet>();
-		for (Map.Entry<Integer, CheckoutSet> entry : map.entrySet()) {
+		for (Map.Entry<String, CheckoutSet> entry : checkoutSetMap.entrySet()) {
 			checkoutSetList.add(entry.getValue());
 		}
 

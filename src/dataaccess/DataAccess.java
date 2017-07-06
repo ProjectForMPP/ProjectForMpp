@@ -11,6 +11,6 @@ public interface DataAccess {
 	public HashMap<String,Book> readBooksMap();
 	public HashMap<String,User> readUserMap();
 	public HashMap<String, LibraryMember> readMemberMap();
-	public  HashMap<String, Author> readAuthorMap();
-	public  HashMap<Integer, CheckoutSet> readCheckoutRecordsMap();
+	public HashMap<String, Author> readAuthorMap();
+	public HashMap<String, CheckoutSet> readCheckoutRecordsMap();
 }

@@ -105,7 +105,5 @@ public class TestData {
 		DataAccessFacade.loadMemberMap(members);
 		
 		
-	}
-		
-	
+	}	
 }

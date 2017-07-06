@@ -59,10 +59,10 @@ public class DataAccessFacade implements DataAccess {
 	}
 	// read the checkout record from the file system @by Ma
 	@SuppressWarnings("unchecked")
-	public HashMap<Integer, CheckoutSet> readCheckoutRecordsMap() {
+	public HashMap<String, CheckoutSet> readCheckoutRecordsMap() {
 		//Returns a Map with name/value pairs being
-		//   userId -> User
-		return (HashMap<Integer, CheckoutSet>)readFromStorage(StorageType.CHECKOUTRECORDS);
+		//   String -> CheckoutSet
+		return (HashMap<String,CheckoutSet>)readFromStorage(StorageType.CHECKOUTRECORDS);
 	}
 	/////load methods - these place test data into the storage area
 	///// - used just once at startup  
@@ -93,8 +93,12 @@ public class DataAccessFacade implements DataAccess {
 	
 	// load the checkout records @by Ma
 	public static void loadCheckoutRecordsMap(List<CheckoutSet> checkoutSetList) {
-		HashMap<Integer, CheckoutSet> checkoutSetMap = new HashMap<Integer, CheckoutSet>();
-		checkoutSetList.forEach(cs -> checkoutSetMap.put(cs.getCopyNumber(), cs));
+		HashMap<String, CheckoutSet> checkoutSetMap = new HashMap<String, CheckoutSet>();
+		//checkoutSetList.forEach(cs -> checkoutSetMap.put(cs.getCopyNumber(), cs));
+		for(CheckoutSet cs:checkoutSetList){
+			String newKey = cs.getISBN() + String.valueOf(cs.getCopyNumber());
+			checkoutSetMap.put(newKey, cs);
+		}
 		saveToStorage(StorageType.CHECKOUTRECORDS, checkoutSetMap);
 	}
 	
