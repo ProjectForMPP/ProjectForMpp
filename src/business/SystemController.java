@@ -208,11 +208,17 @@ public class SystemController implements ControllerInterface{
 		DataAccessFacade.loadAuthorMap(authors);
 	}
 	// Search Member
-	public LibraryMember searchMember(String memberId){
+	public List<CheckoutSet> searchMember(String memberId){
 		DataAccess da = new DataAccessFacade();
-		HashMap<String, LibraryMember> map = da.readMemberMap();
-		if (map.containsKey(memberId)) {
-			return map.get(memberId);
+		HashMap<String, CheckoutSet> map = da.readCheckoutRecordsMap();
+		List<CheckoutSet> CheckoutSetList = new ArrayList<CheckoutSet>();
+		for(Map.Entry<String, CheckoutSet> entry:map.entrySet()){
+			if(((CheckoutSet)entry.getValue()).getMemberID().equals(memberId)){
+				CheckoutSetList.add((CheckoutSet)entry.getValue());
+			}
+		}
+		if (CheckoutSetList !=null &&!CheckoutSetList.isEmpty()) {
+			return CheckoutSetList;
 		}else{
 			return null;
 		}
